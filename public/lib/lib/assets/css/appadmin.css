@@ -1,0 +1,10 @@
+/*
+* demo.css
+* File include item demo only specific css only
+******************************************************************************/
+
+.appadmin-card-header {
+
+    background-color: #ADD8E6 !important;
+    color: #1ab7ea !important;
+}

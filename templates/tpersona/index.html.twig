@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de Clientes{% endblock %}
+
+{% block body %}
+    <h1>Listado de Clientes</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdPersona</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Identificacion</th>
+                <th>Sexo</th>
+                <th>Fregistro</th>
+                <th>CorreoTrabajo</th>
+                <th>CorreoPersonal</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tpersona in tpersonas %}
+            <tr>
+                <td>{{ tpersona.idPersona }}</td>
+                <td>{{ tpersona.nombres }}</td>
+                <td>{{ tpersona.apellidos }}</td>
+                <td>{{ tpersona.identificacion }}</td>
+                <td>{{ tpersona.sexo }}</td>
+                <td>{{ tpersona.fregistro ? tpersona.fregistro|date('Y-m-d') : '' }}</td>
+                <td>{{ tpersona.correoTrabajo }}</td>
+                <td>{{ tpersona.correoPersonal }}</td>
+                <td>
+                    <a href="{{ path('app_tpersona_show', {'idPersona': tpersona.idPersona}) }}">show</a>
+                    <a href="{{ path('app_tpersona_edit', {'idPersona': tpersona.idPersona}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="19">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tpersona_new') }}">Create new</a>
+{% endblock %}

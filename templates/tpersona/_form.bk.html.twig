@@ -1,0 +1,127 @@
+{{ form_start(form) }}
+
+{# Mostrar errores generales del formulario #}
+{% if form.vars.errors|length > 0 %}
+    <div class="alert alert-danger">
+        {{ form_errors(form) }}
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-12">
+        <h5>Default</h5>
+    </div>
+
+    <!-- Default Wizard -->
+    <div class="col-12 mb-4">
+        <small class="text-light fw-medium">Basic</small>
+        <div class="bs-stepper wizard-numbered mt-2">
+            <div class="bs-stepper-header">
+                <div class="step" data-target="#account-details">
+                    <button type="button" class="step-trigger">
+                        <span class="bs-stepper-circle">1</span>
+                        <span class="bs-stepper-label mt-1">
+                            <span class="bs-stepper-title">Account Details</span>
+                            <span class="bs-stepper-subtitle">Setup Account Details</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="line">
+                    <i class="bx bx-chevron-right"></i>
+                </div>
+                <div class="step" data-target="#personal-info">
+                    <button type="button" class="step-trigger">
+                        <span class="bs-stepper-circle">2</span>
+                        <span class="bs-stepper-label mt-1">
+                            <span class="bs-stepper-title">Personal Info</span>
+                            <span class="bs-stepper-subtitle">Add personal info</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="line">
+                    <i class="bx bx-chevron-right"></i>
+                </div>
+            </div>
+            <div class="bs-stepper-content">
+                <!-- Account Details -->
+                <div id="account-details" class="content">
+                    <div class="content-header mb-3">
+                        <h6 class="mb-0">Account Details</h6>
+                        <small>Enter Your Account Details.</small>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <div class="px-1">
+                                {{ form_row(form.identificacion) }}
+                                {{ form_errors(form.identificacion) }} {# Mostrar errores del campo identificacion #}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="px-1">
+                                {{ form_row(form.nombres) }}
+                                {{ form_errors(form.nombres) }} {# Mostrar errores del campo nombres #}
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-0">
+                            <div class="px-1">
+                                {{ form_row(form.apellidos) }}
+                                {{ form_errors(form.apellidos) }} {# Mostrar errores del campo apellidos #}
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-0">
+                            <div class="px-1">
+                                {{ form_row(form.correoPersonal) }}
+                                {{ form_errors(form.correoPersonal) }} {# Mostrar errores del campo correoPersonal #}
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-between">
+                            <button class="btn btn-label-secondary btn-prev" disabled>
+                                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-next">
+                                <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+                                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Personal Info -->
+                <div id="personal-info" class="content">
+                    <div class="content-header mb-3">
+                        <h6 class="mb-0">Personal Info</h6>
+                        <small>Enter Your Personal Info.</small>
+                    </div>
+                    <div class="row g-3">
+
+                        <div class="col-12 d-flex justify-content-between">
+                            <button class="btn btn-primary btn-prev">
+                                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bs-stepper wizard-numbered mt-2">
+            <div class="bs-stepper wizard-numbered mt-2">
+                <div class="bs-stepper-header">
+                    <div >
+                        {{ form_widget(form.sumbmit,{'attr':{'type':'form-control'}}) }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- /Default Wizard -->
+</div>
+
+{{ form_end(form) }}

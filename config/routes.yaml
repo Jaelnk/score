@@ -1,0 +1,81 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+#Rutas de inicio y cierre de sesión
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
+#Tusuario context
+app_tusuario_index:
+    path: app_tusuario_index
+    controller: App\Controller\TusuarioController::index
+    methods: ['GET']
+app_tusuario_new:
+    path: /app_tusuario_new
+    controller: App\Controller\TusuarioController::new
+    methods: ['GET','POST']
+app_tusuario_edit:
+    path: /app_tusuario_edit/{idUsuario}
+    controller: App\Controller\TusuarioController::edit
+    methods: ['GET','POST']
+app_tusuario_delete:
+    path: /app_tusuario_delete/{idUsuario}
+    controller: App\Controller\TusuarioController::delete
+    methods: ['POST']
+app_tusuario_show:
+    path: /app_tusuario_delete/{idUsuario}
+    controller: App\Controller\TusuarioController::show
+    methods: ['GET']
+app_tusuario_data:
+  path: /app_tusuario_data
+  controller: App\Controller\TusuarioController::getData
+  methods: ['GET','POST']
+
+#Tpersona
+app_tpersonainfo_index:
+    path: /
+    controller: App\Controller\TpersonainfoController::index
+    methods: ['GET']
+
+app_tpersonainfo_new:
+    path: /app_tpersonainfo_new
+    controller: App\Controller\TpersonainfoController::new
+    methods: ['GET','POST']
+app_tpersonainfo_edit:
+    path: /app_tpersonainfo_edit/{idPersona}
+    controller: App\Controller\TpersonainfoController::edit
+    methods: ['GET','POST']
+app_tpersonainfo_delete:
+    path: /app_tpersonainfo_delete/{idPersona}
+    controller: App\Controller\TpersonainfoController::delete
+    methods: ['POST']
+app_tpersonainfo_show:
+    path: /app_tpersonainfo_show/{idPersona}
+    controller: App\Controller\TpersonainfoController::show
+    methods: ['GET']
+app_tpersonainfo_canton:
+  path: /app_tpersonainfo_canton
+  controller: App\Controller\TpersonainfoController::cargaComboCanton
+  methods: ['GET','POST']
+app_tpersonainfo_parroquia:
+  path: /app_tpersonainfo_parroquia
+  controller: App\Controller\TpersonainfoController::cargaComboParroquia
+
+#Tpersonadata
+
+app_solicitud_index:
+    path: /solicitud
+    controller: App\Controller\TpersonainfoController::indexsoli
+    methods: ['GET']
+
+app_tpersonadata_new:
+    path: /app_tpersonasolicitud_new
+    controller: App\Controller\TpersonainfoController::newUser
+    methods: ['GET','POST']

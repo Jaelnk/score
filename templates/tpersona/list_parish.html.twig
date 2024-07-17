@@ -1,0 +1,6 @@
+<option value="" disabled selected></option>
+{% for parroquia in parroquias %}
+    <option value="{{ parroquia.idDpa }}">
+        {{ parroquia.nombre }}
+    </option>
+{% endfor %}
