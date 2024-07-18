@@ -32,7 +32,15 @@ services:
     App\EventListener\DoctrineSessionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+    
+    App\EventListener\LogoutListener:
+        tags:
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LogoutEvent, method: onLogout }
 
     App\Security\SessionUserProvider:
         arguments:
             $requestStack: '@request_stack'
+
+    App\Service\LogoutService:
+        autowire: true
+
