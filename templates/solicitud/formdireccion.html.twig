@@ -1,96 +1,202 @@
 {{ form_start(form) }}
 
-    {% if form.vars.errors|length > 0 %}
+{# Mostrar errores generales del formulario #}
+{% if form.vars.errors|length > 0 %}
     <div class="alert alert-danger">
         {{ form_errors(form) }}
     </div>
-    {% endif %}
-    <div class="row">
-        <div class="col-12">
-            <h5>Default</h5>
-        </div>
+{% endif %}
 
-            <!-- Default Wizard -->
-            <div class="col-12 mb-4">
-                <small class="text-light fw-medium">Basic</small>
-                <div class="bs-stepper wizard-numbered mt-2">
-                    <div class="bs-stepper-header">
-                        <div class="step" data-target="#account-details">
-                            <button type="button" class="step-trigger">
-                                <span class="bs-stepper-circle">1</span>
-                                <span class="bs-stepper-label mt-1">
-                                    <span class="bs-stepper-title">Account Details</span>
-                                    <span class="bs-stepper-subtitle">Setup Account Details</span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="line">
-                            <i class="bx bx-chevron-right"></i>
-                        </div>
-                        <div class="step" data-target="#personal-info">
-                            <button type="button" class="step-trigger">
-                                <span class="bs-stepper-circle">2</span>
-                                <span class="bs-stepper-label mt-1">
-                                    <span class="bs-stepper-titlea">Personal Info</span>
-                                    <span class="bs-stepper-subtitle">Add personal info</span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="line">
-                            <i class="bx bx-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="bs-stepper-content">
-                        <!-- Account Details -->
-                        <div id="account-details" class="content">
-                            <div class="content-header mb-3">
-                                <h6 class="mb-0">Datos del Cliente</h6>
-                                <small>Ingresar la información del cliente</small>
-                            </div>
+<div class="row">
+    <div class="col-12">
+        <h5>Default</h5>
+    </div>
 
-                            <div class="form-group">
-                                <label for="form_identificacion">Identificación:</label>
-                                {{ form_widget(form.IDENTIFICACION, {"required": false, "attr": {"placeholder": "Identificación"}}) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="form_nombres">Nombre:</label>
-                                {{ form_widget(form.NOMBRES, {"required": false, "attr": {"placeholder": "Nombre"}}) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="form_apellidos">Apellido:</label>
-                                {{ form_widget(form.APELLIDOS, {"required": false, "attr": {"placeholder": "Apellido"}}) }}
-                            </div>
-                            <div class="form-group">
-                                <label for="form_correo">Correo Personal:</label>
-                                {{ form_widget(form.CORREO_PERSONAL, {"required": false, "attr": {"placeholder": "Correo"}}) }}
-                            </div>
-                            
-
-                                <div class="col-12 d-flex justify-content-between mt-3">
-                                    <button class="btn btn-label-secondary btn-prev" type="button" disabled>
-                                        <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                                        <span class="align-middle d-sm-inline-block d-none">Regresar</span>
-                                    </button>
-                                    <button class="btn btn-success btn-next" type="button">
-                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Guardar</span>
-                                        <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Personal Info -->
-                        <div id="personal-info" class="content">
-
-                            <div class="row g-3">
-                                <h1>Ubicación del Cliente</h1>
-                                <div class="col-md-3 mb-2">
-                                </div>
-                            </div>
-                            
-                        </div>
+    <!-- Default Wizard -->
+    <div class="col-12 mb-4">
+        <small class="text-light fw-medium">Basic</small>
+        <div class="bs-stepper wizard-numbered mt-2">
+            <div class="bs-stepper-header">
+                <div class="step" data-target="#account-details">
+                    <button type="button" class="step-trigger">
+                        <span class="bs-stepper-circle">1</span>
+                        <span class="bs-stepper-label mt-1">
+                            <span class="bs-stepper-title">Account Details</span>
+                            <span class="bs-stepper-subtitle">Setup Account Details</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="line">
+                    <i class="bx bx-chevron-right"></i>
+                </div>
+                <div class="step" data-target="#personal-info">
+                    <button type="button" class="step-trigger">
+                        <span class="bs-stepper-circle">2</span>
+                        <span class="bs-stepper-label mt-1">
+                            <span class="bs-stepper-titlea">Personal Info</span>
+                            <span class="bs-stepper-subtitle">Add personal info</span>
+                        </span>
+                    </button>
+                </div>
+                <div class="line">
+                    <i class="bx bx-chevron-right"></i>
                 </div>
             </div>
+            <div class="bs-stepper-content">
+                <!-- Account Details -->
+                
+                <div id="account-details" class="content">
+                    <div class="content-header mb-3">
+                        <h6 class="mb-0">Datos del Cliente</h6>
+                        <h3>Cliente</h3>
+                        <small>Ingresar la información del cliente</small>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <div class="px-1">
+                                {{ form_row(form.identificacion) }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="px-1">
+                                {{ form_row(form.nombres) }}
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-0">
+                            <div class="px-1">
+                                {{ form_row(form.apellidos) }}
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-0">
+                            <div class="px-1">
+                                {{ form_row(form.correoPersonal) }}
+                            </div>
+                        </div>
+
+
+                        {% for dir in form.direccion %}
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row (dir.idProvincia) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row (dir.idCanton) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row (dir.idParroquia) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row (dir.callePrincipal) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row (dir.calleSecundaria) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row (dir.numeroDomicilio) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row (dir.referencia) }}
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+
+
+
+
+                        {% for tel in form.telefono %}
+                            <div class="row g-3">
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (tel.idTipo) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (tel.numero) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (tel.extension) }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="col-12 d-flex justify-content-between">
+                            <button class="btn btn-label-secondary btn-prev" type="button" disabled>
+                                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                <span class="align-middle d-sm-inline-block d-none">Regresar</span>
+                            </button>
+                            <button class="btn btn-primary btn-next" type="button">
+                                <span class="align-middle d-sm-inline-block d-none me-sm-1">Siguiente</span>
+                                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Personal Info -->
+                <div id="personal-info" class="content">
+
+                    <div class="row g-3">
+                        <h1>Ubicación del Cliente</h1>
+                        <div class="col-md-3 mb-2">
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-4">
+                            <div class="px-1">
+                                <input type="text" class="form-control" id="searchInput" placeholder="Ingresa una dirección...">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4 d-flex align-items-center">
+                            <button type="button" class="btn btn-primary" id="searchButton">Buscar</button>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-12 mb-3">
+                            <div id="map" style="width: 100%; height: 400px;"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex align-items-center mb-2">
+                                <label for="latitude" class="me-2">Latitud:</label>
+                                <input type="text" class="form-control me-4" id="latitude" name="latitude" readonly>
+                                <label for="longitude" class="me-2">Longitud:</label>
+                                <input type="text" class="form-control" id="longitude" name="longitude" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row g-3">
+                        <div class="col-12 d-flex justify-content-between">
+                            <button class="btn btn-primary btn-prev" type="button">
+                                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                <span class="align-middle d-sm-inline-block d-none">Regresar</span>
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="validateAndSubmit()">
+                                <span class="align-middle d-sm-inline-block d-none me-sm-1">Guardar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
         </div>
-    <!-- /Default Wizard -->
     </div>
-    {{ form_end(form) }}
+</div>
+<!-- /Default Wizard -->
+</div>
+
+{{ form_end(form) }}
