@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tpersonainfo{% endblock %}
+
+{% block body %}
+    <h1>Tpersonainfo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdPersona</th>
+                <td>{{ tpersonainfo.idPersona }}</td>
+            </tr>
+            <tr>
+                <th>Nombres</th>
+                <td>{{ tpersonainfo.nombres }}</td>
+            </tr>
+            <tr>
+                <th>Apellidos</th>
+                <td>{{ tpersonainfo.apellidos }}</td>
+            </tr>
+            <tr>
+                <th>Identificacion</th>
+                <td>{{ tpersonainfo.identificacion }}</td>
+            </tr>
+            <tr>
+                <th>Sexo</th>
+                <td>{{ tpersonainfo.sexo }}</td>
+            </tr>
+            <tr>
+                <th>Fregistro</th>
+                <td>{{ tpersonainfo.fregistro ? tpersonainfo.fregistro|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CorreoTrabajo</th>
+                <td>{{ tpersonainfo.correoTrabajo }}</td>
+            </tr>
+            <tr>
+                <th>CorreoPersonal</th>
+                <td>{{ tpersonainfo.correoPersonal }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ tpersonainfo.createdAt ? tpersonainfo.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBy</th>
+                <td>{{ tpersonainfo.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>CreatedIp</th>
+                <td>{{ tpersonainfo.createdIp }}</td>
+            </tr>
+            <tr>
+                <th>CreatedPublicIp</th>
+                <td>{{ tpersonainfo.createdPublicIp }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBrowser</th>
+                <td>{{ tpersonainfo.createdBrowser }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ tpersonainfo.updatedAt ? tpersonainfo.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedBy</th>
+                <td>{{ tpersonainfo.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedIp</th>
+                <td>{{ tpersonainfo.updatedIp }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedPublicIp</th>
+                <td>{{ tpersonainfo.updatedPublicIp }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedBrowser</th>
+                <td>{{ tpersonainfo.updatedBrowser }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tpersonainfo_index') }}">back to list</a>
+
+    <a href="{{ path('app_tpersonainfo_edit', {'idPersona': tpersonainfo.idPersona}) }}">edit</a>
+
+    {{ include('tpersonainfo/_delete_form.html.twig') }}
+{% endblock %}

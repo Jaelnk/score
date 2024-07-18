@@ -1,0 +1,6 @@
+<option value="" disabled selected></option>
+{% for canton in cantones %}
+    <option value="{{ canton.idDpa }}">
+        {{ canton.nombre }}
+    </option>
+{% endfor %}

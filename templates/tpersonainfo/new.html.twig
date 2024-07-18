@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Cliente{% endblock %}
+
+{% block headerlink %}
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                    <li class="breadcrumb-item active">Nuevo Cliente</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('map') }} {# Incluir CSS generado para map.js #}
+
+{% endblock %}
+
+{% block body %}
+    {{ include('tpersonainfo/_form.html.twig') }}
+    <a href="{{ path('app_tpersonainfo_index') }}">Volver a la lista</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('map') }} {# Incluir JavaScript generado para map.js #}
+    <script src="{{ asset('/lib/lib/assets/js/form-wizard-numbered.js') }}"></script> {# Incluir script personalizado para wizard numerado #}
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+        })
+
+        function validateAndSubmit() {
+            const form = document.querySelector('form');
+            console.log(form.checkValidity());
+            if (!form.checkValidity()) {
+                // Si el formulario es válido, navegar al primer tab
+                const wizardNumbered = document.querySelector('.wizard-numbered');
+                const stepperInstance = wizardNumbered ? new Stepper(wizardNumbered) : null;
+                if (stepperInstance) {
+                    stepperInstance.to(1); // Cambia el 1 por el índice del primer tab si es diferente
+                }
+                // Una vez navegado al primer tab, se puede enviar el formulario
+                form.reportValidity();
+            } else {
+                // Si hay errores de validación, mostrar los mensajes de error
+                form.submit();
+            }
+        }
+        //Carga de provincia-canton-parroquia
+        $(".cmbProvincia").change(function () {
+
+            if ($(this).val() != "") {
+                $('.cmbCanton').html('');
+                $('.cmbParroquia').html('');
+                cargarCantones();
+            }
+        })
+        $(".cmbCanton").change(function () {
+            if ($(this).val() != "") {
+                cargarParroquias();
+            }
+        })
+        var cargarCantones = function () {
+            $.ajax({
+                method: 'POST',
+                data: {'idProvincia': $('.cmbProvincia').val()},
+                url: "{{ path('app_tpersonainfo_canton') }}",
+                context: document.body
+            }).done(function (dataJson) {
+                $('.cmbCanton').html(dataJson);
+            });
+        };
+        var cargarParroquias = function () {
+            $.ajax({
+                method: 'POST',
+                data: {'idCanton': $('.cmbCanton').val()},
+                url: "{{ path('app_tpersonainfo_parroquia') }}",
+                context: document.body
+            }).done(function (dataJson) {
+                $('.cmbParroquia').html(dataJson);
+            });
+        };
+    </script>
+{% endblock %}

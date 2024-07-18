@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block headerlink %}
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Inicio /</span> Usuarios</h4>
+{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+        <div class="mb-3 d-flex  card-header sticky-element  d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
+            <h5 class="card-title mb-sm-0 me-2">Usuarios</h5>
+            <div class="action-btns">
+
+                <a class="btn  btn-primary" href="{{ path('app_tusuario_new') }}">
+                    <i class="bx bx-plus me-1"></i>
+                    <span class="align-middle">Nuevo</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-datatable table-responsive">
+            <table class="dt-scrollableTable  table border-top">
+                <thead>
+                <tr>
+                    <th>NombreUsuario</th>
+                    <th>Roles</th>
+                    <th>Password</th>
+                    <th>Acciones</th>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+
+    <a href="{{ path('app_tusuario_new') }}">Create new</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {# <script src="{{ absolute_url(asset('/lib/lib/assets/js/app-user-list.js')) }}"></script> #}
+    <script>
+        /**
+         * DataTables Extensions (jquery)
+         */
+        'use strict';
+
+
+        $(function () {
+
+
+            var dt_scrollable_table = $('.dt-scrollableTable')
+
+            // Scrollable
+            // --------------------------------------------------------------------
+            if (dt_scrollable_table.length) {
+                var dt_scrollableTable = dt_scrollable_table.DataTable({
+
+                    // Ajax call
+                    "ajax": {
+                        "url": "{{ path('app_tusuario_data') }}",
+                        "type": "POST",
+                        dataSrc: "data"
+                    },
+                    columns: [
+                        {data: 'nombreUsuario',},
+                        {data: 'roles',},
+                        {data: 'password',},
+                    ],
+                    columnDefs: [
+                        // These are the column name variables that will be sent to the server
+                        {"data": "nombreUsuario", "targets": 0},
+                        {"data": "roles", "targets": 1},
+                        {"data": "password", "targets": 2},
+                        {
+                            // Actions
+                            targets: 3,
+                            title: 'Actions',
+                            searchable: false,
+                            orderable: false,
+                            render: function (data, type, full, meta) {
+                                return (
+                                    '<div class="d-inline-block text-nowrap">' +
+                                    '<button class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button>' +
+                                    '<button class="btn btn-sm btn-icon delete-record"><i class="bx bx-trash"></i></button>' +
+                                    '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded me-2"></i></button>' +
+                                    '<div class="dropdown-menu dropdown-menu-end m-0">' +
+                                    '<a href="" class="dropdown-item">View</a>' +
+                                    '<a href="javascript:;" class="dropdown-item">Suspend</a>' +
+                                    '</div>' +
+                                    '</div>'
+                                );
+                            }
+                        }
+                    ],
+
+                });
+            }
+
+        });
+
+
+    </script>
+
+{% endblock %}
+
+
+

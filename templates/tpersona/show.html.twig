@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tpersona{% endblock %}
+
+{% block body %}
+    <h1>Tpersona</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdPersona</th>
+                <td>{{ tpersona.idPersona }}</td>
+            </tr>
+            <tr>
+                <th>Nombres</th>
+                <td>{{ tpersona.nombres }}</td>
+            </tr>
+            <tr>
+                <th>Apellidos</th>
+                <td>{{ tpersona.apellidos }}</td>
+            </tr>
+            <tr>
+                <th>Identificacion</th>
+                <td>{{ tpersona.identificacion }}</td>
+            </tr>
+            <tr>
+                <th>Sexo</th>
+                <td>{{ tpersona.sexo }}</td>
+            </tr>
+            <tr>
+                <th>Fregistro</th>
+                <td>{{ tpersona.fregistro ? tpersona.fregistro|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CorreoTrabajo</th>
+                <td>{{ tpersona.correoTrabajo }}</td>
+            </tr>
+            <tr>
+                <th>CorreoPersonal</th>
+                <td>{{ tpersona.correoPersonal }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ tpersona.createdAt ? tpersona.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBy</th>
+                <td>{{ tpersona.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>CreatedIp</th>
+                <td>{{ tpersona.createdIp }}</td>
+            </tr>
+            <tr>
+                <th>CreatedPublicIp</th>
+                <td>{{ tpersona.createdPublicIp }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBrowser</th>
+                <td>{{ tpersona.createdBrowser }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ tpersona.updatedAt ? tpersona.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedBy</th>
+                <td>{{ tpersona.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedIp</th>
+                <td>{{ tpersona.updatedIp }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedPublicIp</th>
+                <td>{{ tpersona.updatedPublicIp }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedBrowser</th>
+                <td>{{ tpersona.updatedBrowser }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tpersona_index') }}">back to list</a>
+
+    <a href="{{ path('app_tpersona_edit', {'idPersona': tpersona.idPersona}) }}">edit</a>
+
+    {{ include('tpersona/_delete_form.html.twig') }}
+{% endblock %}

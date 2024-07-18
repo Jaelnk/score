@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tusuario{% endblock %}
+
+{% block body %}
+    <h1>Tusuario</h1>
+
+    <table class="table">
+        <tbody>
+
+            <tr>
+                <th>NombreUsuario</th>
+                <td>{{ tusuario.nombreUsuario }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ tusuario.roles ? tusuario.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ tusuario.password }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ tusuario.createdAt ? tusuario.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBy</th>
+                <td>{{ tusuario.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>CreatedIp</th>
+                <td>{{ tusuario.createdIp }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBrowser</th>
+                <td>{{ tusuario.createdBrowser }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ tusuario.updatedAt ? tusuario.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedBy</th>
+                <td>{{ tusuario.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedIp</th>
+                <td>{{ tusuario.updatedIp }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedBrowser</th>
+                <td>{{ tusuario.updatedBrowser }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tusuario_index') }}">back to list</a>
+
+    <a href="{{ path('app_tusuario_edit', {'idUsuario': tusuario.idUsuario}) }}">edit</a>
+
+    {{ include('tusuario/_delete_form.html.twig') }}
+{% endblock %}

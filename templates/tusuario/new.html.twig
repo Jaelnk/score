@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Creación de Usuario{% endblock %}
+
+
+{% block headerlink %}
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Creación de Usuario</h1>
+            </div><!-- /.col -->
+
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Creación de Usuario</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    {{ include('tusuario/_form.html.twig') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+        })
+
+
+
+        $(document).ready(function () {
+
+        });
+
+
+    </script>
+
+
+{% endblock %}
+
+
+
