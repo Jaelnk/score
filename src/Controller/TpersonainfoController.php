@@ -25,6 +25,8 @@ use Symfony\Component\HttpFoundation\Response;
 #[IsGranted('ROLE_USER')]
 class TpersonainfoController extends AbstractController
 {
+
+    #solicitudes
     public function indexsoli(TpersonainfoRepository $tpersonainfoRepository): Response
     {
         return $this->render('solicitud/index.html.twig', [
@@ -32,6 +34,7 @@ class TpersonainfoController extends AbstractController
         ]);
     }
     
+    #new user soli
      public function newUser(Request $request): Response
     {
 
@@ -54,7 +57,79 @@ class TpersonainfoController extends AbstractController
     
         return $this->render('solicitud/new.html.twig', [ 'form' => $form->createView(),]);
     }
+
+    #locations list
+    public function getlocation(TpersonainfoRepository $tpersonainfoRepository): Response
+    {
+        $domicilios = [
+            [
+                'id' => 1,
+                'tipoDomicilio' => 'Residencial',
+                'principal' => true,
+                'direccion' => '123 Calle Ficticia, Ciudad Ejemplo'
+            ],
+            [
+                'id' => 2,
+                'tipoDomicilio' => 'Oficina',
+                'principal' => false,
+                'direccion' => '456 Avenida Imaginaria, Ciudad Demo'
+            ],
+            [
+                'id' => 3,
+                'tipoDomicilio' => 'Residencial',
+                'principal' => true,
+                'direccion' => '789 Calle Inventada, Ciudad Modelo'
+            ]
+        ];
+        return $this->render('solicitud/indexdomic.html.twig', [
+            'domicilios' => $domicilios
+        ]);
+    }
+
+    #editlocation
+    public function editlocation(Request $request, EntityManagerInterface $entityManager, TparametrosRepository $parametrosRepo, TpersonaRepository $repoper): Response
+    {
+        $parameters = $parametrosRepo->getAllParameter();
+        $tpersonainfo = new Tpersonainfo();
+        $tdireccion = new Tdireccion();
+        $telefono1 = new Ttelefono();
+        $telefono2 = new Ttelefono();
+        $tpersonainfo->addDireccion($tdireccion);
+        $tpersonainfo->addTelefono($telefono1);
+        $tpersonainfo->addTelefono($telefono2);
+        //Parametros para SgaDireccionType
+        $idSelectProvincia = isset($request->get('tpersonainfo')['direccion'][0]['idProvincia']) ? $request->get('tpersonainfo')['direccion'][0]['idProvincia'] : 17;
+        $idSelectCanton = isset($request->get('tpersonainfo')['direccion'][0]['idCanton']) ? $request->get('tpersonainfo')['direccion'][0]['idCanton'] : 1701;
+        $idSelectParroquia = isset($request->get('tpersonainfo')['direccion'][0]['idParroquia']) ? $request->get('tpersonainfo')['direccion'][0]['idParroquia'] : 0;
+
+        $form = $this->createForm(TpersonainfoType::class, $tpersonainfo, [
+            'parameters' => $parameters,
+            'idSelectProvincia' => $idSelectProvincia,
+            'idSelectCanton' => $idSelectCanton,
+            'idSelectParroquia' => $idSelectParroquia,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $entityManager->persist($tpersonainfo);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('app_tpersonainfo_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('solicitud/updatedireccion.html.twig', [
+            'tpersona' => $tpersonainfo,
+            'form' => $form,
+        ]);
+    }
+
     
+
+
+
     #[Route('/tpersonainfo', name: 'app_tpersonainfo_index')]
     public function index(TpersonainfoRepository $tpersonainfoRepository): Response
     {

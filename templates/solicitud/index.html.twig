@@ -4,6 +4,18 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <style>
+        .table-success, .table-success>td, .table-success>th {
+            background-color: #d4edda; /* Ajusta el color de fondo de las filas de la tabla */
+        }
+        .card {
+            background-color: #f8f9fa; /* Color de fondo verde claro para las tarjetas */
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+    </style>
 {% endblock %}
 
 {% block headerlink %}
@@ -13,69 +25,67 @@
 {% block body %}
     <!-- Scrollable -->
     <div class="card">
-        <div class="mb-3 d-flex  card-header sticky-element  d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
+        <div class="mb-3 d-flex card-header sticky-element justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
             <h5 class="card-title mb-sm-0 me-2">Cliente</h5>
             <div class="action-btns">
-
-            <a class="btn btn-secondary" href="#" id="llamarJson">
+                <a class="btn btn-success" href="#" id="llamarJson">
                     <i class="bx bx-data me-1"></i>
                     <span class="align-middle">Llamar JSON</span>
-            </a>
-
-            <a class="btn btn-success" href="{{ path('app_tpersonadata_new') }}" id="newuser">
-                <i class="bx bx-plus me-1"></i>
-                <span class="align-middle">Nuevo cliente</span>
-            </a>
+                </a>
+                <a class="btn btn-success" href="{{ path('app_tpersonadata_new') }}" id="newuser">
+                    <i class="bx bx-plus me-1"></i>
+                    <span class="align-middle">Nuevo cliente</span>
+                </a>
             </div>
         </div>
 
         <div class="card-datatable text-nowrap">
-            <table class="dt-scrollableTable table table-bordered">
-                <thead>
-                <tr>
-                    <th>Acciones</th>
-                    <th><strong>Tipo Ident.</strong></th>
-                    <th><strong>Identificacion</strong></th>
-                    <th><strong>Nombre Completo</strong></th>
-                    <th><strong>Num Socio</strong></th>
-
-                </tr>
-                </thead>
-                <tbody>
-                {% for tpersonainfo in tpersonainfos %}
-                    <tr>
-                        <td>
-                            <div class="d-inline-block">
-                                <a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                                   data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a>
-                                <div class="dropdown-menu dropdown-menu-end m-0">
-                                    <a href="{{ path('app_tpersonainfo_show', {'idPersona': tpersonainfo.idPersona}) }}"
-                                       class="dropdown-item">Details</a>
-                                    <a href="javascript:;" class="dropdown-item">Archive</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="javascript:;" class="dropdown-item text-danger delete-record">Delete</a>
-                                </div>
-                            </div>
-                            <a href="{{ path('app_tpersonainfo_edit', {'idPersona': tpersonainfo.idPersona}) }}"
-                               class="item-edit text-body"><i class="bx bxs-edit"></i></a>
-                        </td>
-                        <td>{{ tpersonainfo.identificacion }}</td>
-                        <td>{{ tpersonainfo.nombres }}</td>
-                        <td>{{ tpersonainfo.apellidos }}</td>
-                        <td>{{ tpersonainfo.correoPersonal }}</td>
-
-                        {#  <td>
-                            <a href="{{ path('app_tpersona_show', {'idPersona': tpersonainfo.idPersona}) }}">show</a>
-                            <a href="{{ path('app_tpersona_edit', {'idPersona': tpersonainfo.idPersona}) }}">edit</a>
-                        </td> #}
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="24">no records found</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="dt-scrollableTable table table-bordered ">
+                    <thead > {# class="bg-success text-white" #}
+                        <tr>
+                            <th>Acciones</th>
+                            <th><strong>Tipo Ident.</strong></th>
+                            <th><strong>Identificacion</strong></th>
+                            <th><strong>Nombre Completo</strong></th>
+                            <th><strong>Num Socio</strong></th>
+                            <th><strong>Ubicación</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tpersonainfo in tpersonainfos %}
+                            <tr >
+                                <td>
+                                    <div class="d-inline-block">
+                                        <a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow text-success"
+                                        data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end m-0">
+                                            <a href="{{ path('app_tpersonainfo_show', {'idPersona': tpersonainfo.idPersona}) }}"
+                                            class="dropdown-item">Details</a>
+                                            <a href="javascript:;" class="dropdown-item">Archive</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="javascript:;" class="dropdown-item text-danger delete-record">Delete</a>
+                                        </div>
+                                    </div>
+                                    <a href="{{ path('app_tpersonainfo_edit', {'idPersona': tpersonainfo.idPersona}) }}"
+                                    class="item-edit text-success"><i class="bx bxs-edit"></i></a>
+                                </td>
+                                <td>{{ tpersonainfo.identificacion }}</td>
+                                <td>{{ tpersonainfo.nombres }}</td>
+                                <td>{{ tpersonainfo.apellidos }}</td>
+                                <td>{{ tpersonainfo.correoPersonal }}</td>
+                                <td>
+                                    <a href="{{path('app_tpersonainfo_location')}}" class="btn btn-success btn-sm">Ubicación</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr class="table-success">
+                                <td colspan="6">no records found</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <hr class="my-5"/>
@@ -87,17 +97,17 @@
             <h5 class="card-title">Datos del Servicio Web</h5>
         </div>
         <div class="card-datatable text-nowrap">
-            <table id="jsonDataTable" class="table table-bordered">
+            <table id="jsonDataTable" class="table table-bordered table-success">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Tipo Proceso</th>
-                        <th>C&oacute;digo Proceso</th>
-                        <th>Descripci&oacute;n Proceso</th>
+                        <th>Código Proceso</th>
+                        <th>Descripción Proceso</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Los datos se insertar�n aqu� din�micamente -->
+                    <!-- Los datos se insertarán aquí dinámicamente -->
                 </tbody>
             </table>
         </div>
@@ -115,7 +125,7 @@
         'use strict';
 
         $(function () {
-            var dt_scrollable_table = $('.dt-scrollableTable')
+            var dt_scrollable_table = $('.dt-scrollableTable');
 
             // Scrollable
             // --------------------------------------------------------------------
@@ -149,14 +159,13 @@
                             "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                         }
-
                     },
                     "lengthChange": true,
                     "searching": true,
                     iDisplayLength: 5,
                     "autoWidth": false,
                     "processing": true,
-                    "destroy": "true",
+                    "destroy": true,
                     columnDefs: [
                         {
                             // Label
@@ -177,8 +186,7 @@
                                     '<span class="badge ' + $status[$status_number].class + '">' + $status[$status_number].title + '</span>'
                                 );
                             }
-                        },
-
+                        }
                     ],
                     // Scroll options
                     //scrollY: '300px',
@@ -186,7 +194,6 @@
                     dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>'
                 });
             }
-
 
             // Filter form control to default size
             // ? setTimeout used for multilingual table initialization
@@ -196,7 +203,7 @@
             }, 200);
         });
 
-        // Agregar evento para el bot�n "Llamar JSON"
+        // Agregar evento para el botón "Llamar JSON"
         document.getElementById('llamarJson').addEventListener('click', function(e) {
             e.preventDefault();
             fetch('http://172.16.1.231:8080/api/proceso/all', {
@@ -212,7 +219,7 @@
 
                 data.forEach(item => {
                     const row = `
-                        <tr>
+                        <tr class="table-success">
                             <td>${item.id}</td>
                             <td>${item.tipoProceso}</td>
                             <td>${item.codigoProceso}</td>
@@ -227,9 +234,28 @@
 
                 // Inicializar DataTables en la nueva tabla
                 $('#jsonDataTable').DataTable({
-                    // Configuraci�n de DataTables similar a tu tabla existente
                     "language": {
-                        // ... (tu configuraci�n de idioma existente) ...
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sSearch": "Buscar:",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        }
                     },
                     "lengthChange": true,
                     "searching": true,
@@ -244,77 +270,5 @@
                 alert('Hubo un error al obtener los datos. Por favor, intenta de nuevo.');
             });
         });
-
     </script>
-
 {% endblock %}
-
-
-
-{#{% extends 'base.html.twig' %}
-
-{% block title %}Tpersonainfo index{% endblock %}
-
-{% block body %}
-    <h1>Tpersonainfo index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>IdPersona</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Identificacion</th>
-                <th>Sexo</th>
-                <th>Fregistro</th>
-                <th>CorreoTrabajo</th>
-                <th>CorreoPersonal</th>
-                <th>CreatedAt</th>
-                <th>CreatedBy</th>
-                <th>CreatedIp</th>
-                <th>CreatedPublicIp</th>
-                <th>CreatedBrowser</th>
-                <th>UpdatedAt</th>
-                <th>UpdatedBy</th>
-                <th>UpdatedIp</th>
-                <th>UpdatedPublicIp</th>
-                <th>UpdatedBrowser</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tpersonainfo in tpersonainfos %}
-            <tr>
-                <td>{{ tpersonainfo.idPersona }}</td>
-                <td>{{ tpersonainfo.nombres }}</td>
-                <td>{{ tpersonainfo.apellidos }}</td>
-                <td>{{ tpersonainfo.identificacion }}</td>
-                <td>{{ tpersonainfo.sexo }}</td>
-                <td>{{ tpersonainfo.fregistro ? tpersonainfo.fregistro|date('Y-m-d') : '' }}</td>
-                <td>{{ tpersonainfo.correoTrabajo }}</td>
-                <td>{{ tpersonainfo.correoPersonal }}</td>
-                <td>{{ tpersonainfo.createdAt ? tpersonainfo.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tpersonainfo.createdBy }}</td>
-                <td>{{ tpersonainfo.createdIp }}</td>
-                <td>{{ tpersonainfo.createdPublicIp }}</td>
-                <td>{{ tpersonainfo.createdBrowser }}</td>
-                <td>{{ tpersonainfo.updatedAt ? tpersonainfo.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tpersonainfo.updatedBy }}</td>
-                <td>{{ tpersonainfo.updatedIp }}</td>
-                <td>{{ tpersonainfo.updatedPublicIp }}</td>
-                <td>{{ tpersonainfo.updatedBrowser }}</td>
-                <td>
-                    <a href="{{ path('app_tpersonainfo_show', {'idPersona': tpersonainfo.idPersona}) }}">show</a>
-                    <a href="{{ path('app_tpersonainfo_edit', {'idPersona': tpersonainfo.idPersona}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="19">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_tpersonainfo_new') }}">Create new</a> 
-{% endblock %}#}

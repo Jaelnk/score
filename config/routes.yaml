@@ -79,3 +79,13 @@ app_tpersonadata_new:
     path: /app_tpersonasolicitud_new
     controller: App\Controller\TpersonainfoController::newUser
     methods: ['GET','POST']
+
+app_tpersonainfo_location:
+    path: /app_tpersonalocation
+    controller: App\Controller\TpersonainfoController::getlocation
+    methods: ['GET']
+
+domicilio_edit:
+    path: /app_tpersonalocation
+    controller: App\Controller\TpersonainfoController::editlocation
+    methods: ['GET','POST']

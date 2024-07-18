@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modificar ubicacion{% endblock %}
+
+{% block headerlink %}
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                    <li class="breadcrumb-item active">Modificar ubicacion</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('map') }} {# Incluir CSS generado para map.js #}
+
+{% endblock %}
+
+{% block body %}
+    {{ include('solicitud/formdireccion.html.twig') }}
+    <a href="{{ path('app_tpersonainfo_index') }}">Volver a lista de domicilios</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('map') }} {# Incluir JavaScript generado para map.js #}
+{% endblock %}

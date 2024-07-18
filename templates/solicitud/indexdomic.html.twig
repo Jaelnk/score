@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Direcciones{% endblock %}
+
+{% block headerlink %}
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                    <li class="breadcrumb-item active">Direccion</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('map') }} {# Incluir CSS generado para map.js #}
+
+{% endblock %}
+
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Tipo Domicilio</th>
+                    <th>Principal</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for domicilio in domicilios %}
+                    <tr>
+                        <td>{{ domicilio.tipoDomicilio }}</td>
+                        <td>{{ domicilio.principal ? 'Sí' : 'No' }}</td>
+                        <td>{{ domicilio.direccion }}</td>
+                        <td>
+                            <a href="{{ path('domicilio_edit') }}" class="btn btn-primary btn-sm">
+                                Modificar
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">No se encontraron domicilios</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ path('app_solicitud_index') }}">Volver a la lista de clientes</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('map') }} {# Incluir JavaScript generado para map.js #}
+{% endblock %}

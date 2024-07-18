@@ -1,0 +1,96 @@
+{{ form_start(form) }}
+
+    {% if form.vars.errors|length > 0 %}
+    <div class="alert alert-danger">
+        {{ form_errors(form) }}
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-12">
+            <h5>Default</h5>
+        </div>
+
+            <!-- Default Wizard -->
+            <div class="col-12 mb-4">
+                <small class="text-light fw-medium">Basic</small>
+                <div class="bs-stepper wizard-numbered mt-2">
+                    <div class="bs-stepper-header">
+                        <div class="step" data-target="#account-details">
+                            <button type="button" class="step-trigger">
+                                <span class="bs-stepper-circle">1</span>
+                                <span class="bs-stepper-label mt-1">
+                                    <span class="bs-stepper-title">Account Details</span>
+                                    <span class="bs-stepper-subtitle">Setup Account Details</span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="line">
+                            <i class="bx bx-chevron-right"></i>
+                        </div>
+                        <div class="step" data-target="#personal-info">
+                            <button type="button" class="step-trigger">
+                                <span class="bs-stepper-circle">2</span>
+                                <span class="bs-stepper-label mt-1">
+                                    <span class="bs-stepper-titlea">Personal Info</span>
+                                    <span class="bs-stepper-subtitle">Add personal info</span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="line">
+                            <i class="bx bx-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="bs-stepper-content">
+                        <!-- Account Details -->
+                        <div id="account-details" class="content">
+                            <div class="content-header mb-3">
+                                <h6 class="mb-0">Datos del Cliente</h6>
+                                <small>Ingresar la información del cliente</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="form_identificacion">Identificación:</label>
+                                {{ form_widget(form.IDENTIFICACION, {"required": false, "attr": {"placeholder": "Identificación"}}) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="form_nombres">Nombre:</label>
+                                {{ form_widget(form.NOMBRES, {"required": false, "attr": {"placeholder": "Nombre"}}) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="form_apellidos">Apellido:</label>
+                                {{ form_widget(form.APELLIDOS, {"required": false, "attr": {"placeholder": "Apellido"}}) }}
+                            </div>
+                            <div class="form-group">
+                                <label for="form_correo">Correo Personal:</label>
+                                {{ form_widget(form.CORREO_PERSONAL, {"required": false, "attr": {"placeholder": "Correo"}}) }}
+                            </div>
+                            
+
+                                <div class="col-12 d-flex justify-content-between mt-3">
+                                    <button class="btn btn-label-secondary btn-prev" type="button" disabled>
+                                        <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Regresar</span>
+                                    </button>
+                                    <button class="btn btn-success btn-next" type="button">
+                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Guardar</span>
+                                        <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Personal Info -->
+                        <div id="personal-info" class="content">
+
+                            <div class="row g-3">
+                                <h1>Ubicación del Cliente</h1>
+                                <div class="col-md-3 mb-2">
+                                </div>
+                            </div>
+                            
+                        </div>
+                </div>
+            </div>
+        </div>
+    <!-- /Default Wizard -->
+    </div>
+    {{ form_end(form) }}
