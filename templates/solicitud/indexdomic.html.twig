@@ -18,6 +18,8 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('map') }} {# Incluir CSS generado para map.js #}
+    <link rel="stylesheet" href="{{ absolute_url(asset('/lib/lib/assets/css/appadmin.css')) }}"/>
+
 
 {% endblock %}
 
@@ -39,9 +41,13 @@
                         <td>{{ domicilio.principal ? 'Sí' : 'No' }}</td>
                         <td>{{ domicilio.direccion }}</td>
                         <td>
-                            <a href="{{ path('domicilio_edit') }}" class="btn btn-primary btn-sm">
-                                Modificar
+                            <a class="btn btn-coop" href="{{ path('domicilio_edit') }}" >
+                               <span class="align-middle">Modificar</span> 
                             </a>
+                            {# <a class="btn btn-success" href="{{ path('app_tpersonadata_new') }}" id="newuser">
+                    <i class="bx bx-plus me-1"></i>
+                    <span class="align-middle">Nuevo cliente</span>
+                </a> #}
                         </td>
                     </tr>
                 {% else %}

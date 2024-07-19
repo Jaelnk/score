@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modificar ubicacion{% endblock %}
+{% block title %}Nuevo Cliente{% endblock %}
 
 {% block headerlink %}
     <div class="container-fluid">
@@ -8,7 +8,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                    <li class="breadcrumb-item active">Modificar ubicacion</li>
+                    <li class="breadcrumb-item active">Editar ubicacion</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -18,15 +18,286 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('map') }} {# Incluir CSS generado para map.js #}
+    <link rel="stylesheet" href="{{ absolute_url(asset('/lib/lib/assets/css/appadmin.css')) }}"/>
+    <style>
+        .bs-stepper .step-trigger .bs-stepper-circle {
+            background-color: #ffffff; /* Fondo blanco por defecto */
+           
+            color: #28a745; /* Color del texto dentro del círculo */
+        }
 
+        .bs-stepper .step-trigger.active .bs-stepper-circle {
+            background-color: #28a745; /* Fondo verde cuando está activo */
+            color: #ffffff; /* Texto blanco cuando está activo */
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-    {{ include('solicitud/formdireccion.html.twig') }}
-    <a href="{{ path('app_tpersonainfo_index') }}">Volver a lista de domicilios</a>
+    {{ form_start(form) }}
+
+    {# Mostrar errores generales del formulario #}
+    {% if form.vars.errors|length > 0 %}
+        <div class="alert alert-danger">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-12">
+            <h5>Editar ubicación</h5>
+        </div>
+
+        <!-- Default Wizard -->
+        <div class="col-12 mb-4">
+            <small class="text-light fw-medium">Basic</small>
+            <div class="bs-stepper wizard-numbered mt-2">
+                <div class="bs-stepper-header">
+                    <div class="step" data-target="#account-details">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-circle">1</span>
+                            <span class="bs-stepper-label mt-1">
+                                <span class="bs-stepper-title">Datos Cliente</span>
+                                <span class="bs-stepper-subtitle">Modificación datos cliente</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="line">
+                        <i class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="step" data-target="#personal-info">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-circle">2</span>
+                            <span class="bs-stepper-label mt-1">
+                                <span class="bs-stepper-titlea">Ubicación</span>
+                                <span class="bs-stepper-subtitle">Ubicación actual</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="line">
+                        <i class="bx bx-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="bs-stepper-content">
+                    <!-- Account Details -->
+                    <div id="account-details" class="content">
+                        <div class="content-header mb-3">
+                            <h6 class="mb-0">Datos del Cliente</h6>
+                            <small>Ingresar la información del cliente</small>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.identificacion) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.nombres) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row(form.apellidos) }}
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-0">
+                                <div class="px-1">
+                                    {{ form_row(form.correoPersonal) }}
+                                </div>
+                            </div>
+
+
+                            {% for dir in form.direccion %}
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (dir.idProvincia) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (dir.idCanton) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (dir.idParroquia) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (dir.callePrincipal) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (dir.calleSecundaria) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (dir.numeroDomicilio) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-0">
+                                    <div class="px-1">
+                                        {{ form_row (dir.referencia) }}
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+
+
+
+
+                            {% for tel in form.telefono %}
+                                <div class="row g-3">
+                                    <div class="col-md-3 mb-0">
+                                        <div class="px-1">
+                                            {{ form_row (tel.idTipo) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-0">
+                                        <div class="px-1">
+                                            {{ form_row (tel.numero) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-0">
+                                        <div class="px-1">
+                                            {{ form_row (tel.extension) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <div class="col-12 d-flex justify-content-between">
+                                <button class="btn btn-label-secondary btn-prev" type="button" disabled>
+                                    <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                    <span class="align-middle d-sm-inline-block d-none">Regresar</span>
+                                </button>
+                                <button class="btn btn-coop btn-next" type="button">
+                                    <span class="align-middle d-sm-inline-block d-none me-sm-1">Siguiente</span>
+                                    <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Personal Info -->
+                    <div id="personal-info" class="content">
+
+                        <div class="row g-3">
+                            <h1>Ubicación del Cliente</h1>
+                            <div class="col-md-3 mb-2">
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6 mb-4">
+                                <div class="px-1">
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Ingresa una dirección...">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4 d-flex align-items-center">
+                                <button type="button" class="btn btn-coop" id="searchButton">Buscar</button>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-12 mb-3">
+                                <div id="map" style="width: 100%; height: 400px;"></div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="d-flex align-items-center mb-2">
+                                    <label for="latitude" class="me-2">Latitud:</label>
+                                    <input type="text" class="form-control me-4" id="latitude" name="latitude" readonly>
+                                    <label for="longitude" class="me-2">Longitud:</label>
+                                    <input type="text" class="form-control" id="longitude" name="longitude" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row g-3">
+                            <div class="col-12 d-flex justify-content-between">
+                                <button class="btn btn-coop btn-prev" type="button">
+                                    <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                    <span class="align-middle d-sm-inline-block d-none">Regresar</span>
+                                </button>
+                                <button type="button" class="btn btn-success" onclick="validateAndSubmit()">
+                                    <span class="align-middle d-sm-inline-block d-none me-sm-1">Guardar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Default Wizard -->
+    </div>
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_tpersonainfo_index') }}">Volver a la lista</a>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('map') }} {# Incluir JavaScript generado para map.js #}
+    <script src="{{ asset('/lib/lib/assets/js/form-wizard-numbered.js') }}"></script> {# Incluir script personalizado para wizard numerado #}
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+        })
+
+        function validateAndSubmit() {
+            const form = document.querySelector('form');
+            console.log(form.checkValidity());
+            if (!form.checkValidity()) {
+                // Si el formulario es válido, navegar al primer tab
+                const wizardNumbered = document.querySelector('.wizard-numbered');
+                const stepperInstance = wizardNumbered ? new Stepper(wizardNumbered) : null;
+                if (stepperInstance) {
+                    stepperInstance.to(1); // Cambia el 1 por el índice del primer tab si es diferente
+                }
+                // Una vez navegado al primer tab, se puede enviar el formulario
+                form.reportValidity();
+            } else {
+                // Si hay errores de validación, mostrar los mensajes de error
+                form.submit();
+            }
+        }
+        //Carga de provincia-canton-parroquia
+        $(".cmbProvincia").change(function () {
+
+            if ($(this).val() != "") {
+                $('.cmbCanton').html('');
+                $('.cmbParroquia').html('');
+                cargarCantones();
+            }
+        })
+        $(".cmbCanton").change(function () {
+            if ($(this).val() != "") {
+                cargarParroquias();
+            }
+        })
+        var cargarCantones = function () {
+            $.ajax({
+                method: 'POST',
+                data: {'idProvincia': $('.cmbProvincia').val()},
+                url: "{{ path('app_tpersonainfo_canton') }}",
+                context: document.body
+            }).done(function (dataJson) {
+                $('.cmbCanton').html(dataJson);
+            });
+        };
+        var cargarParroquias = function () {
+            $.ajax({
+                method: 'POST',
+                data: {'idCanton': $('.cmbCanton').val()},
+                url: "{{ path('app_tpersonainfo_parroquia') }}",
+                context: document.body
+            }).done(function (dataJson) {
+                $('.cmbParroquia').html(dataJson);
+            });
+        };
+    </script>
 {% endblock %}

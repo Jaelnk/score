@@ -17,6 +17,7 @@ use App\Repository\TpersonaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,6 +125,73 @@ class TpersonainfoController extends AbstractController
             'tpersona' => $tpersonainfo,
             'form' => $form,
         ]);
+
+/* -- */
+       /*  $persona = new Tpersonainfo;
+        $form = $this->createFormBuilder($persona) #task
+            ->add('nombres', TextType::class, [
+                'label' => 'Nombres',
+                'required' => false,
+            ])
+            ->add('apellidos', TextType::class, [
+                'label' => 'Apellidos',
+                'required' => false,
+            ])
+            ->add('identificacion', TextType::class, [
+                'label' => 'Identificación',
+                'required' => false,
+            ])
+            ->add('sexo', ChoiceType::class, [
+                'label' => 'Sexo',
+                'choices' => [
+                    'Masculino' => 'M',
+                    'Femenino' => 'F',
+                    'Otro' => 'O',
+                ],
+                'required' => false,
+            ])
+            ->add('correoTrabajo', TextType::class, [
+                'label' => 'Correo de Trabajo',
+                'required' => false,
+            ])
+            ->add('correoPersonal', TextType::class, [
+                'label' => 'Correo Personal',
+                'required' => false,
+            ])
+            ->add('idTipoIdentificacion', TextType::class, [
+                'label' => 'Tipo de Identificación',
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Guardar'
+            ])
+            ->add('save', SubmitType::class)
+            ->getForm();
+
+        $submittedToken=$request->request->get('token');
+        $form->handleRequest($request);
+
+        if($form -> isSubmitted()){
+
+            if($this->isCsrfTokenValid('generico', $submittedToken))
+            {
+                $campos = $form->getData();
+                //print_r($campos);
+                //echo "Nombre: ".$campos->getNombre()." | E-Mail: ".$campos->getCorreo()." | Teléfono: ".$campos->getTelefono();
+                die();
+            }else
+            {
+                #die("error del token");
+                $this->addFlash('css', 'warning');
+                $this->addFlash('mensaje', 'Ocurrió un error inesperado');
+                return $this->redirectToRoute('formularios_simple');
+            }
+
+            $campos = $form-> getData();
+            print_r($campos);
+            die();
+        }
+
+        return $this->render('solicitud/updatedireccion.html.twig', [ 'form' => $form->createView(),]); */
     }
 
     

@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ absolute_url(asset('/lib/lib/assets/css/appadmin.css')) }}"/>
     <style>
         .table-success, .table-success>td, .table-success>th {
             background-color: #d4edda; /* Ajusta el color de fondo de las filas de la tabla */
@@ -15,6 +16,12 @@
             background-color: #28a745;
             border-color: #28a745;
         }
+        {# .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.active {
+            background-color: #28a745 !important; /* Color de fondo del botón activo */
+            color: #fff !important; /* Color de texto del botón activo */
+            border: 1px solid #28a745 !important; /* Color del borde del botón activo */
+        } #}
     </style>
 {% endblock %}
 
@@ -28,7 +35,7 @@
         <div class="mb-3 d-flex card-header sticky-element justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
             <h5 class="card-title mb-sm-0 me-2">Cliente</h5>
             <div class="action-btns">
-                <a class="btn btn-success" href="#" id="llamarJson">
+                <a class="btn btn-coop" href="#" id="llamarJson">
                     <i class="bx bx-data me-1"></i>
                     <span class="align-middle">Llamar JSON</span>
                 </a>
@@ -57,7 +64,7 @@
                             <tr >
                                 <td>
                                     <div class="d-inline-block">
-                                        <a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow text-success"
+                                        <a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
                                         data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a>
                                         <div class="dropdown-menu dropdown-menu-end m-0">
                                             <a href="{{ path('app_tpersonainfo_show', {'idPersona': tpersonainfo.idPersona}) }}"
@@ -68,7 +75,7 @@
                                         </div>
                                     </div>
                                     <a href="{{ path('app_tpersonainfo_edit', {'idPersona': tpersonainfo.idPersona}) }}"
-                                    class="item-edit text-success"><i class="bx bxs-edit"></i></a>
+                                    class="item-edit-coop"><i class="bx bxs-edit"></i></a>
                                 </td>
                                 <td>{{ tpersonainfo.identificacion }}</td>
                                 <td>{{ tpersonainfo.nombres }}</td>
