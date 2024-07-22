@@ -9,9 +9,7 @@
         .table-success, .table-success>td, .table-success>th {
             background-color: #d4edda; /* Ajusta el color de fondo de las filas de la tabla */
         }
-        .card {
-            background-color: #f8f9fa; /* Color de fondo verde claro para las tarjetas */
-        }
+
         .btn-success {
             background-color: #28a745;
             border-color: #28a745;
@@ -48,10 +46,9 @@
 
         <div class="card-datatable text-nowrap">
             <div class="table-responsive">
-                <table class="dt-scrollableTable table table-bordered ">
-                    <thead > {# class="bg-success text-white" #}
+                <table class="dt-scrollableTable table table-bordered">
+                    <thead> {# class="bg-success text-white" #}
                         <tr>
-                            <th>Acciones</th>
                             <th><strong>Tipo Ident.</strong></th>
                             <th><strong>Identificacion</strong></th>
                             <th><strong>Nombre Completo</strong></th>
@@ -61,39 +58,25 @@
                     </thead>
                     <tbody>
                         {% for tpersonainfo in tpersonainfos %}
-                            <tr >
-                                <td>
-                                    <div class="d-inline-block">
-                                        <a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a>
-                                        <div class="dropdown-menu dropdown-menu-end m-0">
-                                            <a href="{{ path('app_tpersonainfo_show', {'idPersona': tpersonainfo.idPersona}) }}"
-                                            class="dropdown-item">Details</a>
-                                            <a href="javascript:;" class="dropdown-item">Archive</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="javascript:;" class="dropdown-item text-danger delete-record">Delete</a>
-                                        </div>
-                                    </div>
-                                    <a href="{{ path('app_tpersonainfo_edit', {'idPersona': tpersonainfo.idPersona}) }}"
-                                    class="item-edit-coop"><i class="bx bxs-edit"></i></a>
-                                </td>
+                            <tr>
                                 <td>{{ tpersonainfo.identificacion }}</td>
                                 <td>{{ tpersonainfo.nombres }}</td>
                                 <td>{{ tpersonainfo.apellidos }}</td>
                                 <td>{{ tpersonainfo.correoPersonal }}</td>
                                 <td>
-                                    <a href="{{path('app_tpersonainfo_location')}}" class="btn btn-success btn-sm">Ubicación</a>
+                                    <a href="{{ path('app_tpersonainfo_location') }}" class="btn btn-success btn-sm">Ubicación</a>
                                 </td>
                             </tr>
                         {% else %}
                             <tr class="table-success">
-                                <td colspan="6">no records found</td>
+                                <td colspan="5">no records found</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
+
     </div>
     <hr class="my-5"/>
     <!--/ Scrollable -->

@@ -102,13 +102,13 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="menu-sub">
+                  {#   <ul class="menu-sub">
                         <li class="menu-item">
                             <a href="{{ path('app_tpersonainfo_index') }}" class="menu-link">
                                 <div class="text-truncate" data-i18n="Maps">Maps</div>
                             </a>
                         </li>
-                    </ul>
+                    </ul> #}
                 </li>
 
 
@@ -181,7 +181,7 @@
 
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <!-- Language -->
-                        <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
+                        {# <li class="nav-item dropdown-language dropdown me-2 me-xl-0">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                data-bs-toggle="dropdown">
                                 <i class="bx bx-globe bx-sm"></i>
@@ -212,7 +212,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> #}
                         <!-- /Language -->
 
                         <!-- Quick links  -->
@@ -337,7 +337,7 @@
                         <!-- / Style Switcher-->
 
                         <!-- Notification -->
-                        <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+                        {# <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
                             <a
                                     class="nav-link dropdown-toggle hide-arrow"
                                     href="javascript:void(0);"
@@ -583,14 +583,14 @@
                                     <button class="btn btn-primary text-uppercase w-100">view all notifications</button>
                                 </li>
                             </ul>
-                        </li>
+                        </li> #}
                         <!--/ Notification -->
                         <!-- User -->
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                data-bs-toggle="dropdown">
                                 <div class="avatar avatar-online">
-                                    <img src="{{ absolute_url(asset('/lib/lib/assets/img/avatars/1.png')) }}" alt
+                                    <img src="{{ absolute_url(asset('/lib/lib/assets/img/avatars/user_image.png')) }}" alt
                                          class="w-px-40 h-auto rounded-circle"/>
                                 </div>
                             </a>
@@ -600,7 +600,7 @@
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 me-3">
                                                 <div class="avatar avatar-online">
-                                                    <img src="{{ absolute_url(asset('/lib/lib/assets/img/avatars/1.png')) }}"
+                                                    <img src="{{ absolute_url(asset('/lib/lib/assets/img/avatars/user_image.png')) }}"
                                                          alt
                                                          class="w-px-40 h-auto rounded-circle"/>
                                                 </div>

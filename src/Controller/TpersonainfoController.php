@@ -12,6 +12,7 @@ use App\Form\Tpersonainfo1Type;
 use App\Form\TpersonainfoType;
 use App\Form\TpersonaType;
 use App\Repository\TparametrosRepository;
+use App\Repository\TpersonadatosRepository;
 use App\Repository\TpersonainfoRepository;
 use App\Repository\TpersonaRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,6 +29,13 @@ class TpersonainfoController extends AbstractController
 {
 
     #solicitudes
+    /* public function indexsoli(TpersonadatosRepository $tpersonadatosRepository): Response
+    {
+        return $this->render('solicitud/index.html.twig', [
+            'tpersonainfos' => $tpersonadatosRepository->findAll(),
+        ]);
+    } */
+
     public function indexsoli(TpersonainfoRepository $tpersonainfoRepository): Response
     {
         return $this->render('solicitud/index.html.twig', [
