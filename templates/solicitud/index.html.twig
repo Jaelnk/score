@@ -24,13 +24,13 @@
 {% endblock %}
 
 {% block headerlink %}
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Inicio /</span> Cliente Ini--</h4>
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Georeferenciación /</span> Cliente</h4>
 {% endblock %}
 
 {% block body %}
     <!-- Scrollable -->
     <div class="card">
-        <div class="mb-3 d-flex card-header sticky-element justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
+        {# <div class="mb-3 d-flex card-header sticky-element justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
             <h5 class="card-title mb-sm-0 me-2">Cliente</h5>
             <div class="action-btns">
                 <a class="btn btn-coop" href="#" id="llamarJson">
@@ -42,34 +42,40 @@
                     <span class="align-middle">Nuevo cliente</span>
                 </a>
             </div>
+        </div> #}
+
+        <div class="d-flex justify-content-end flex-column mb-3 me-5">
+            <form method="get" action="{{ path('app_solicitud_index') }}" class="input-group d-flex justify-content-end" style="max-width: 300px;">
+                <input type="text" name="identificacion" class="form-control me-2" placeholder="Buscar por Identificación" value="{{ app.request.get('identificacion') }}">
+                <button class="btn btn-success" type="submit">Buscar</button>
+            </form>
         </div>
 
         <div class="card-datatable text-nowrap">
+            
+
             <div class="table-responsive">
-                <table class="dt-scrollableTable table table-bordered">
-                    <thead> {# class="bg-success text-white" #}
+                 <table class="dt-scrollableTable table table-bordered">
+                    <thead {# class="bg-success text-white" #}>
+        
                         <tr>
-                            <th><strong>Tipo Ident.</strong></th>
-                            <th><strong>Identificacion</strong></th>
-                            <th><strong>Nombre Completo</strong></th>
-                            <th><strong>Num Socio</strong></th>
+                            <th>CPersona</th>
+                            <th>Identificacion</th>
+                            <th>NombreLegal</th>
+                            <th>NumeroSocio</th>
                             <th><strong>Ubicación</strong></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for tpersonainfo in tpersonainfos %}
+                        {% for persona in tpersonainfos %}
                             <tr>
-                                <td>{{ tpersonainfo.identificacion }}</td>
-                                <td>{{ tpersonainfo.nombres }}</td>
-                                <td>{{ tpersonainfo.apellidos }}</td>
-                                <td>{{ tpersonainfo.correoPersonal }}</td>
+                                <td>{{ persona.CPersona }}</td>
+                                <td>{{ persona.Identificacion }}</td>
+                                <td>{{ persona.NombreLegal }}</td>
+                                <td>{{ persona.NumeroSocio }}</td>
                                 <td>
                                     <a href="{{ path('app_tpersonainfo_location') }}" class="btn btn-success btn-sm">Ubicación</a>
                                 </td>
-                            </tr>
-                        {% else %}
-                            <tr class="table-success">
-                                <td colspan="5">no records found</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -117,80 +123,80 @@
         $(function () {
             var dt_scrollable_table = $('.dt-scrollableTable');
 
-            // Scrollable
-            // --------------------------------------------------------------------
-            if (dt_scrollable_table.length) {
-                var dt_scrollableTable = dt_scrollable_table.DataTable({
-                    orderCellsTop: true,
-                    "aLengthMenu": [
-                        [5, 10, 25, 50, 100, 200, -1],
-                        [5, 10, 25, 50, 100, 200, "Todos"]
-                    ],
-                    "language": {
-                        "sProcessing": "Procesando...",
-                        "sLengthMenu": "Mostrar _MENU_ registros",
-                        "sZeroRecords": "No se encontraron resultados",
-                        "sEmptyTable": "Ningún dato disponible en esta tabla",
-                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Buscar:",
-                        "oPaginate": {
-                            "sFirst": "Primero",
-                            "sLast": "Último",
-                            "sNext": "Siguiente",
-                            "sPrevious": "Anterior"
-                        },
-                        "sUrl": "",
-                        "sInfoThousands": ",",
-                        "sLoadingRecords": "Cargando...",
-                        "oAria": {
-                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                        }
+        // Scrollable
+        // --------------------------------------------------------------------
+        if (dt_scrollable_table.length) {
+            var dt_scrollableTable = dt_scrollable_table.DataTable({
+                orderCellsTop: true,
+                "aLengthMenu": [
+                    [5, 10, 25, 50, 100, 200, -1],
+                    [5, 10, 25, 50, 100, 200, "Todos"]
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
                     },
-                    "lengthChange": true,
-                    "searching": true,
-                    iDisplayLength: 5,
-                    "autoWidth": false,
-                    "processing": true,
-                    "destroy": true,
-                    columnDefs: [
-                        {
-                            // Label
-                            targets: -2,
-                            render: function (data, type, full, meta) {
-                                var $status_number = full['status'];
-                                var $status = {
-                                    1: {title: 'Current', class: 'bg-label-primary'},
-                                    2: {title: 'Professional', class: ' bg-label-success'},
-                                    3: {title: 'Rejected', class: ' bg-label-danger'},
-                                    4: {title: 'Resigned', class: ' bg-label-warning'},
-                                    5: {title: 'Applied', class: ' bg-label-info'}
-                                };
-                                if (typeof $status[$status_number] === 'undefined') {
-                                    return data;
-                                }
-                                return (
-                                    '<span class="badge ' + $status[$status_number].class + '">' + $status[$status_number].title + '</span>'
-                                );
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                "lengthChange": true,
+                "searching": false, // Desactiva la funcionalidad de búsqueda
+                iDisplayLength: 5,
+                "autoWidth": false,
+                "processing": true,
+                "destroy": true,
+                columnDefs: [
+                    {
+                        // Label
+                        targets: -2,
+                        render: function (data, type, full, meta) {
+                            var $status_number = full['status'];
+                            var $status = {
+                                1: {title: 'Current', class: 'bg-label-primary'},
+                                2: {title: 'Professional', class: ' bg-label-success'},
+                                3: {title: 'Rejected', class: ' bg-label-danger'},
+                                4: {title: 'Resigned', class: ' bg-label-warning'},
+                                5: {title: 'Applied', class: ' bg-label-info'}
+                            };
+                            if (typeof $status[$status_number] === 'undefined') {
+                                return data;
                             }
+                            return (
+                                '<span class="badge ' + $status[$status_number].class + '">' + $status[$status_number].title + '</span>'
+                            );
                         }
-                    ],
-                    // Scroll options
-                    //scrollY: '300px',
-                    //scrollX: true,
-                    dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>'
-                });
-            }
+                    }
+                ],
+                // Scroll options
+                //scrollY: '300px',
+                //scrollX: true,
+                dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end">>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>'
+            });
+        }
 
-            // Filter form control to default size
-            // ? setTimeout used for multilingual table initialization
-            setTimeout(() => {
-                $('.dataTables_filter .form-control').removeClass('form-control-sm');
-                $('.dataTables_length .form-select').removeClass('form-select-sm');
-            }, 200);
+        // Filter form control to default size
+        // ? setTimeout used for multilingual table initialization
+        setTimeout(() => {
+            $('.dataTables_filter .form-control').removeClass('form-control-sm');
+            $('.dataTables_length .form-select').removeClass('form-select-sm');
+        }, 200);
         });
 
         // Agregar evento para el botón "Llamar JSON"

@@ -17,12 +17,15 @@ use App\Repository\TpersonainfoRepository;
 use App\Repository\TpersonaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[IsGranted('ROLE_USER')]
 class TpersonainfoController extends AbstractController
@@ -35,11 +38,48 @@ class TpersonainfoController extends AbstractController
             'tpersonainfos' => $tpersonadatosRepository->findAll(),
         ]);
     } */
+    private $httpClient;
+    private $logger;
 
-    public function indexsoli(TpersonainfoRepository $tpersonainfoRepository): Response
+    public function __construct(HttpClientInterface $httpClient, LoggerInterface $logger)
     {
+        $this->httpClient = $httpClient;
+        $this->logger = $logger;
+    }
+
+    public function indexsoli(Request $request, TpersonainfoRepository $tpersonainfoRepository): Response
+    {
+        if ($request->request->get('identificacion')==''){
+            $identificacion = $request->query->get('identificacion', ' ');
+        }
+        
+
+
+        dump($identificacion);
+        $apiData = [];
+        if ($identificacion) {
+            try {
+                $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/personas', [
+                    'json' => [
+                        'identificacion' => $identificacion
+                    ],
+                ]);
+
+                $apiData = $response->toArray();
+                dump("*********************************************");
+                dump($apiData['ListadoPersonas']);
+
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Error al obtener los datos: ' . $e->getMessage());
+            }
+        }
+
+        
+        
         return $this->render('solicitud/index.html.twig', [
-            'tpersonainfos' => $tpersonainfoRepository->findAll(),
+            'tpersonainfos' => $apiData['ListadoPersonas'],
+            
+            //'apiData' => $apiData['ListadoPersonas'],
         ]);
     }
     
