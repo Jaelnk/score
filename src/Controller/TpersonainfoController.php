@@ -49,15 +49,12 @@ class TpersonainfoController extends AbstractController
 
     public function indexsoli(Request $request, TpersonainfoRepository $tpersonainfoRepository): Response
     {
-        if ($request->request->get('identificacion')==''){
-            $identificacion = $request->query->get('identificacion', ' ');
-        }
+        //si identificacion ==null , intentificacion = ' '
+        $identificacion = $request->query->get('identificacion', ' ');
         
-
-
         dump($identificacion);
         $apiData = [];
-        if ($identificacion) {
+        if ($identificacion != ' ') {
             try {
                 $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/personas', [
                     'json' => [
@@ -72,6 +69,12 @@ class TpersonainfoController extends AbstractController
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Error al obtener los datos: ' . $e->getMessage());
             }
+        }else{
+            $apiData = [
+                "ListadoPersonas" => [],
+                "CodigoResultado" => "000",
+                "Mensaje" => "TRANSACCION REALIZADA CORRECTAMENTE"
+            ];
         }
 
         
@@ -108,30 +111,34 @@ class TpersonainfoController extends AbstractController
     }
 
     #locations list
-    public function getlocation(TpersonainfoRepository $tpersonainfoRepository): Response
+    public function getlocation(Request $request, TpersonainfoRepository $tpersonainfoRepository): Response
     {
-        $domicilios = [
-            [
-                'id' => 1,
-                'tipoDomicilio' => 'Residencial',
-                'principal' => true,
-                'direccion' => '123 Calle Ficticia, Ciudad Ejemplo'
-            ],
-            [
-                'id' => 2,
-                'tipoDomicilio' => 'Oficina',
-                'principal' => false,
-                'direccion' => '456 Avenida Imaginaria, Ciudad Demo'
-            ],
-            [
-                'id' => 3,
-                'tipoDomicilio' => 'Residencial',
-                'principal' => true,
-                'direccion' => '789 Calle Inventada, Ciudad Modelo'
-            ]
-        ];
+
+        $cpersona = $request->request->get('CPersona');
+        dump($cpersona);
+        $cpersona = $request->query->get('CPersona', '2572013');
+        dump($cpersona);
+        $apiData = [];
+        if ($cpersona) {
+            try {
+                $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/ubicaciones', [
+                    'json' => [
+                        'cpersona' => $cpersona
+                    ],
+                ]);
+
+                $apiData = $response->toArray();
+                dump("*********************************************");
+                dump($apiData['ListadoUbicaciones']);
+
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Error al obtener los datos: ' . $e->getMessage());
+            }
+        }
+
+
         return $this->render('solicitud/indexdomic.html.twig', [
-            'domicilios' => $domicilios
+            'domicilios' => $apiData['ListadoUbicaciones']
         ]);
     }
 

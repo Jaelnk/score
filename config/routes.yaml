@@ -53,7 +53,7 @@ app_tpersonadata_new:
 app_tpersonainfo_location:
     path: /app_tpersonalocation
     controller: App\Controller\TpersonainfoController::getlocation
-    methods: ['GET']
+    methods: ['GET','POST']
 
 domicilio_edit:
     path: /app_tpersonalocation2

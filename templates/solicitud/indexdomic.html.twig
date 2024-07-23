@@ -37,9 +37,9 @@
             <tbody>
                 {% for domicilio in domicilios %}
                     <tr>
-                        <td>{{ domicilio.tipoDomicilio }}</td>
-                        <td>{{ domicilio.principal ? 'Sí' : 'No' }}</td>
-                        <td>{{ domicilio.direccion }}</td>
+                        <td>{{ domicilio.CPersona }}</td>
+                        <td>{{ domicilio.DirPrincipal ? 'Sí' : 'No' }}</td>
+                        <td>{{ domicilio.Direccion }}</td>
                         <td>
                             <a class="btn btn-coop" href="{{ path('domicilio_edit') }}" >
                                <span class="align-middle">Modificar</span> 

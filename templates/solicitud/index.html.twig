@@ -74,7 +74,7 @@
                                 <td>{{ persona.NombreLegal }}</td>
                                 <td>{{ persona.NumeroSocio }}</td>
                                 <td>
-                                    <a href="{{ path('app_tpersonainfo_location') }}" class="btn btn-success btn-sm">Ubicación</a>
+                                    <a href="{{ path('app_tpersonainfo_location', {'CPersona': persona.CPersona}) }}" class="btn btn-success btn-sm">Ubicación</a>
                                 </td>
                             </tr>
                         {% endfor %}
