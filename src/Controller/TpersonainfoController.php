@@ -54,6 +54,17 @@ class TpersonainfoController extends AbstractController
 
     public function indexsoli(Request $request, TpersonainfoRepository $tpersonainfoRepository): Response
     {
+        $ipAddress = $request->headers->get('x-forwarded-for');
+
+        $user = $this->security->getUser();
+        if ($user){
+            $username = $user->getUserIdentifier();
+            $userMethods = get_class_methods($user);
+        }
+
+        dump($ipAddress);
+        dump($userMethods);
+
         //si identificacion ==null , intentificacion = ' '
         $identificacion = $request->query->get('identificacion', ' ');
         
@@ -63,7 +74,12 @@ class TpersonainfoController extends AbstractController
             try {
                 $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/personas', [
                     'json' => [
-                        'identificacion' => $identificacion
+                        'identificacion' => $identificacion,
+                        'usuario' => [
+                            'usuario' => $username,
+                            'ip' => ' ',
+                            'rol' => ' '
+                        ]
                     ],
                 ]);
 
@@ -118,17 +134,27 @@ class TpersonainfoController extends AbstractController
     #locations list
     public function getlocation(Request $request, TpersonainfoRepository $tpersonainfoRepository): Response
     {
+        $user = $this->security->getUser();
+        if ($user){
+            $username = $user->getUserIdentifier();
+            #$userMethods = get_class_methods($user);
+        }
 
-        $cpersona = $request->request->get('CPersona');
+        
+        $cpersona = $request->query->get('CPersona', ' ');
         dump($cpersona);
-        $cpersona = $request->query->get('CPersona', '2572013');
-        dump($cpersona);
+
         $apiData = [];
         if ($cpersona) {
             try {
                 $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/ubicaciones', [
                     'json' => [
-                        'cpersona' => $cpersona
+                        'cpersona' => $cpersona,
+                        'usuario' => [
+                            'usuario' => $username,
+                            'ip' => ' ',
+                            'rol' => ' '
+                        ]
                     ],
                 ]);
 
@@ -341,7 +367,12 @@ class TpersonainfoController extends AbstractController
                         "latitudGps"=> $latitude,
                         "longitudGps"=> $longitude,
                         "cUsuarioGeoref" => $username,
-                        "fUltimaGeor" => $formattedDate
+                        "fUltimaGeor" => $formattedDate,
+                        'usuario' => [
+                            'usuario' => $username,
+                            'ip' => ' ',
+                            'rol' => ' '
+                        ]
                     ],
                 ]);
 
