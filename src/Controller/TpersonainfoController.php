@@ -19,12 +19,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security as CoreSecurity;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[IsGranted('ROLE_USER')]
@@ -40,11 +43,13 @@ class TpersonainfoController extends AbstractController
     } */
     private $httpClient;
     private $logger;
+    private $security;
 
-    public function __construct(HttpClientInterface $httpClient, LoggerInterface $logger)
+    public function __construct(HttpClientInterface $httpClient, LoggerInterface $logger, CoreSecurity $security)
     {
         $this->httpClient = $httpClient;
         $this->logger = $logger;
+        $this->security = $security;
     }
 
     public function indexsoli(Request $request, TpersonainfoRepository $tpersonainfoRepository): Response
@@ -145,14 +150,246 @@ class TpersonainfoController extends AbstractController
     #editlocation
     public function editlocation(Request $request, EntityManagerInterface $entityManager, TparametrosRepository $parametrosRepo, TpersonaRepository $repoper): Response
     {
-        $parameters = $parametrosRepo->getAllParameter();
+
+        $formData = $request->request->all();
+        $currentDateTime = new \DateTime();
+        $formattedDate = $currentDateTime->format('Y-m-d\TH:i:s');
+
+        $latitude = $request->query->get('latitude');
+        $longitude = $request->query->get('longitude');
+        
+        $user = $this->security->getUser();
+        if ($user){
+            $username = $user->getUserIdentifier();
+            #$userMethods = get_class_methods($user);
+        }
+
+        dump($formattedDate);
+
+        
+
+
+
+        $descripcion = $request->request->get('descripcion');
+        $Direccion = $request->request->get('Direccion');
+        $numeroubicacion = $request->request->get('numeroubicacion');
+        $CPersona = $request->request->get('CPersona');
+        $Pais = $request->request->get('Pais');
+        $DescripcionPais = $request->request->get('DescripcionPais');
+        $Provincia = $request->request->get('Provincia');
+        $NombreProvincia = $request->request->get('NombreProvincia');
+        $NombreCanton = $request->request->get('NombreCanton');
+        $CCanton = $request->request->get('CCanton');
+        $CParroquia = $request->request->get('CParroquia');
+        $NombreParroquia = $request->request->get('NombreParroquia');
+        $Observaciones = $request->request->get('Observaciones');
+        $Sector = $request->request->get('Sector');
+        $NombrePropietario = $request->request->get('NombrePropietario');
+        $CodigoZip5 = $request->request->get('CodigoZip5');
+        $FechaIngresoResidencia = $request->request->get('FechaIngresoResidencia');
+        $Urbanizacion = $request->request->get('Urbanizacion');
+        $tipositiodes = $request->request->get('tipositiodes');
+        $LatitudGPS = $request->request->get('LatitudGPS');
+        $LongitudGPS = $request->request->get('LongitudGPS');
+        $cUsuarioGeoref = $request->request->get('cUsuarioGeoref');
+        $fUltimaGeor = $request->request->get('fUltimaGeor');
+
+        $latitude_value = 'default_value';
+        dump($CPersona);
+
+
+        // Create the form
+        $form = $this->createFormBuilder()
+            ->add('Pais', TextType::class, [
+                'label' => 'Pais',
+                'data' => $DescripcionPais,
+                'attr' => ['readonly' => true],
+                'required' => false,
+            ])
+            ->add('Provincia', TextType::class, [
+                'label' => 'Provincia',
+                'data' => $NombreProvincia,
+                'attr' => ['readonly' => true],
+                'required' => false,
+            ])
+            ->add('Canton', TextType::class, [
+                'label' => 'Cantón',
+                'data' => $NombreCanton,
+                'attr' => ['readonly' => true],
+                'required' => false,
+            ])
+            ->add('Parroquia', TextType::class, [
+                'label' => 'Parroquia',
+                'data' => $NombreParroquia,
+                'attr' => ['readonly' => true],
+                'required' => false,
+            ])
+            ->add('TipoDir', TextType::class, [
+                'label' => 'Tipo',
+                'data' => $descripcion,
+                'attr' => ['readonly' => true],
+                'required' => false,
+            ])
+            ->add('Direccion', TextType::class, [
+                'label' => 'Direccion',
+                'data' => $Direccion,
+                'required' => false,
+            ])
+            ->add('Urbanizacion', TextType::class, [
+                'label' => 'Urbanizacion',
+                'data' => $Urbanizacion,
+                'required' => false,
+            ])
+            ->add('Observaciones', TextType::class, [
+                'label' => 'Observaciones',
+                'data' => $Observaciones,
+                'required' => false,
+            ])
+            ->add('Referencia', TextType::class, [
+                'label' => 'Referencia',
+                'data' => $Sector,
+                'required' => false,
+            ])
+            ->add('Sector', TextType::class, [
+                'label' => 'Sector',
+                'data' => $tipositiodes,
+                'required' => false,
+            ])
+            ->add('NombrePropet', TextType::class, [
+                'label' => 'Nombre Propietario',
+                'data' => $NombrePropietario,
+                'required' => false,
+            ])
+            ->add('ZonaPost', TextType::class, [
+                'label' => 'Zona Postal',
+                'data' => $CodigoZip5,
+                'required' => false,
+            ])
+            ->add('FIngresoRef', TextType::class, [
+                'label' => 'Fecha Ingreso Referencia',
+                'data' => $FechaIngresoResidencia,
+                'required' => false,
+            ])
+
+            ->add('cUsuarioGeoref', TextType::class, [
+                'label' => 'Usuario ultima modificación',
+                'data' => $cUsuarioGeoref,
+                'required' => false,
+                'attr' => ['readonly' => true],
+            ])
+            ->add('fUltimaGeor', TextType::class, [
+                'label' => 'Fecha Ultima Georeferenciación',
+                'data' => $fUltimaGeor,
+                'required' => false,
+                'attr' => ['readonly' => true],
+            ])
+            /* ->add('Latitud', TextType::class, [
+                'label' => 'Latitud',
+                'data' => $LatitudGPS,
+                'attr' => ['readonly' => true],
+                'required' => false,
+            ])
+            ->add('Longitud', TextType::class, [
+                'label' => 'Longitud',
+                'data' => $LongitudGPS,
+                'attr' => ['readonly' => true],
+                'required' => false,
+            ]) */
+            ->add('Cpersona', HiddenType::class, [
+                'data' => $CPersona,
+            ])
+            ->add('numeroubicacion', HiddenType::class, [
+                'data' => $numeroubicacion,
+            ])
+            ->add('cusuario', HiddenType::class, [
+                'data' => $username,
+            ])
+            ->add('formattedDate', HiddenType::class, [
+                'data' => $formattedDate,
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Guardar',
+            ])
+            ->getForm();
+        
+            $form->handleRequest($request);
+        
+        
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $form->getData();
+
+            $data['cUsuarioGeoref'] = $username;
+
+            $latitude = $request->request->get('latitude');
+            $longitude = $request->request->get('longitude');
+
+            #api
+            $numeroubicacion =  $data['numeroubicacion'];
+            $Cpersona =  $data['Cpersona'];
+            $Direccion =  $data['Direccion'];
+            #envio de campos de formulario
+
+            
+
+            try {
+                $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/guardarubicaciones', [
+                    'json' => [
+                        'cpersona' => $Cpersona,
+                        "numerodireccion" => $numeroubicacion,
+                        "latitudGps"=> $latitude,
+                        "longitudGps"=> $longitude,
+                        "cUsuarioGeoref" => $username,
+                        "fUltimaGeor" => $formattedDate
+                    ],
+                ]);
+
+                if($response->getStatusCode() === 200){
+                    $this->addFlash('success', 'TRANSACCION REALIZADA CORRECTAMENTE');
+                
+                }
+                if($response->getStatusCode() === 500){
+                    $this->addFlash('error', 'ERROR AL CONECTAR CON FITBANK, INTENTE DE NUEVO');
+                }
+                
+
+    
+                $apiData = $response->toArray();
+                
+            } catch (\Exception $e) {
+                dump('Error al obtener los datos: ' . $e->getMessage());
+            }
+
+            return $this->render('solicitud/updatedireccion.html.twig', [
+                'form' => $form->createView(),
+                'CPersona' => $CPersona,
+                'username' => $username
+            ]);
+
+        }
+
+        return $this->render('solicitud/updatedireccion.html.twig', [
+            'form' => $form->createView(),
+            'CPersona' => $CPersona,
+            'username' => $username
+        ]);
+
+        /* return $this->redirectToRoute('domicilio_edit', 
+            [
+            'Direccion' => $Direccion ,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'cpersona' => $CPersona,
+            'numeroubicacion' => $numeroubicacion
+
+        ]); */
+
+
+        /* $parameters = $parametrosRepo->getAllParameter();
         $tpersonainfo = new Tpersonainfo();
         $tdireccion = new Tdireccion();
-        $telefono1 = new Ttelefono();
-        $telefono2 = new Ttelefono();
         $tpersonainfo->addDireccion($tdireccion);
-        $tpersonainfo->addTelefono($telefono1);
-        $tpersonainfo->addTelefono($telefono2);
         //Parametros para SgaDireccionType
         $idSelectProvincia = isset($request->get('tpersonainfo')['direccion'][0]['idProvincia']) ? $request->get('tpersonainfo')['direccion'][0]['idProvincia'] : 17;
         $idSelectCanton = isset($request->get('tpersonainfo')['direccion'][0]['idCanton']) ? $request->get('tpersonainfo')['direccion'][0]['idCanton'] : 1701;
@@ -164,22 +401,7 @@ class TpersonainfoController extends AbstractController
             'idSelectCanton' => $idSelectCanton,
             'idSelectParroquia' => $idSelectParroquia,
         ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
-            $entityManager->persist($tpersonainfo);
-            $entityManager->flush();
-
-
-            return $this->redirectToRoute('app_tpersonainfo_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('solicitud/updatedireccion.html.twig', [
-            'tpersona' => $tpersonainfo,
-            'form' => $form,
-        ]);
+        $form->handleRequest($request); */
 
 /* -- */
        /*  $persona = new Tpersonainfo;

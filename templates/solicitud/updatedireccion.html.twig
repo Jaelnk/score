@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nuevo Cliente{% endblock %}
+{% block title %}Editar Georeferenciación{% endblock %}
 
 {% block headerlink %}
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                    <li class="breadcrumb-item active">Editar ubicacion</li>
+                    <li class="breadcrumb-item"><a href="#">Georeferenciación</a></li>
+                    <li class="breadcrumb-item active">Editar ubicación</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -22,7 +22,6 @@
     <style>
         .bs-stepper .step-trigger .bs-stepper-circle {
             background-color: #ffffff; /* Fondo blanco por defecto */
-           
             color: #28a745; /* Color del texto dentro del círculo */
         }
 
@@ -31,17 +30,47 @@
             color: #ffffff; /* Texto blanco cuando está activo */
         }
     </style>
+    <style>
+        .flash-success {
+            border: 2px solid #4CAF50; /* Verde */
+            background-color: #DFF2BF; /* Verde claro */
+            color: #4CAF50; /* Verde oscuro */
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+        .flash-success p {
+            margin: 0;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-
-    {# Mostrar errores generales del formulario #}
+{# Mostrar errores generales del formulario #}
     {% if form.vars.errors|length > 0 %}
         <div class="alert alert-danger">
             {{ form_errors(form) }}
         </div>
     {% endif %}
+
+
+    {% for message in app.flashes('success') %}
+        <div class="flash-success">
+            <p>{{ message }}</p>
+            <button onclick="this.parentElement.style.display='none';" class ="btn btn-coop" >Aceptar</button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="flash-success">
+            <p>{{ message }}</p>
+            <button onclick="this.parentElement.style.display='none';" class ="btn btn-coop" >Aceptar</button>
+        </div>
+    {% endfor %}
+
+    {{ form_start(form, {'attr': {'class': 'form-class', 'action': path('domicilio_edit')}}) }}
+
+    
 
     <div class="row">
         <div class="col-12">
@@ -69,7 +98,7 @@
                         <button type="button" class="step-trigger">
                             <span class="bs-stepper-circle">2</span>
                             <span class="bs-stepper-label mt-1">
-                                <span class="bs-stepper-titlea">Ubicación</span>
+                                <span class="bs-stepper-title">Ubicación</span>
                                 <span class="bs-stepper-subtitle">Ubicación actual</span>
                             </span>
                         </button>
@@ -85,92 +114,78 @@
                             <h6 class="mb-0">Datos del Cliente</h6>
                             <small>Ingresar la información del cliente</small>
                         </div>
+
                         <div class="row g-3">
                             <div class="col-md-3">
                                 <div class="px-1">
-                                    {{ form_row(form.identificacion) }}
+                                    {{ form_row(form.TipoDir) }}
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="px-1">
-                                    {{ form_row(form.nombres) }}
+                                    {{ form_row(form.Pais) }}
                                 </div>
                             </div>
-                            <div class="col-md-3 mb-0">
+                            <div class="col-md-3">
                                 <div class="px-1">
-                                    {{ form_row(form.apellidos) }}
+                                    {{ form_row(form.Provincia) }}
                                 </div>
                             </div>
-                            <div class="col-md-3 mb-0">
+                            <div class="col-md-3">
                                 <div class="px-1">
-                                    {{ form_row(form.correoPersonal) }}
+                                    {{ form_row(form.Canton) }}
                                 </div>
                             </div>
-
-
-                            {% for dir in form.direccion %}
-                                <div class="col-md-3 mb-0">
-                                    <div class="px-1">
-                                        {{ form_row (dir.idProvincia) }}
-                                    </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.Parroquia) }}
                                 </div>
-                                <div class="col-md-3 mb-0">
-                                    <div class="px-1">
-                                        {{ form_row (dir.idCanton) }}
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.Direccion) }}
                                 </div>
-                                <div class="col-md-3 mb-0">
-                                    <div class="px-1">
-                                        {{ form_row (dir.idParroquia) }}
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.Urbanizacion) }}
                                 </div>
-                                <div class="col-md-3 mb-0">
-                                    <div class="px-1">
-                                        {{ form_row (dir.callePrincipal) }}
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.Observaciones) }}
                                 </div>
-                                <div class="col-md-3 mb-0">
-                                    <div class="px-1">
-                                        {{ form_row (dir.calleSecundaria) }}
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.Referencia) }}
                                 </div>
-                                <div class="col-md-3 mb-0">
-                                    <div class="px-1">
-                                        {{ form_row (dir.numeroDomicilio) }}
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.Sector) }}
                                 </div>
-                                <div class="col-md-3 mb-0">
-                                    <div class="px-1">
-                                        {{ form_row (dir.referencia) }}
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.NombrePropet) }}
                                 </div>
-
-                            {% endfor %}
-
-
-
-
-
-                            {% for tel in form.telefono %}
-                                <div class="row g-3">
-                                    <div class="col-md-3 mb-0">
-                                        <div class="px-1">
-                                            {{ form_row (tel.idTipo) }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 mb-0">
-                                        <div class="px-1">
-                                            {{ form_row (tel.numero) }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 mb-0">
-                                        <div class="px-1">
-                                            {{ form_row (tel.extension) }}
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.ZonaPost) }}
                                 </div>
-                            {% endfor %}
+                            </div>
+                        </div>
 
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="px-1">
+                                    {{ form_row(form.FIngresoRef) }}
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="row g-3">
                             <div class="col-12 d-flex justify-content-between">
                                 <button class="btn btn-label-secondary btn-prev" type="button" disabled>
                                     <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
@@ -185,12 +200,11 @@
                     </div>
                     <!-- Personal Info -->
                     <div id="personal-info" class="content">
-
                         <div class="row g-3">
                             <h1>Ubicación del Cliente</h1>
-                            <div class="col-md-3 mb-2">
-                            </div>
+                            <div class="col-md-3 mb-2"></div>
                         </div>
+                        <div id="message" style="display:none;"></div>
                         <div class="row g-3">
                             <div class="col-md-6 mb-4">
                                 <div class="px-1">
@@ -201,103 +215,70 @@
                                 <button type="button" class="btn btn-coop" id="searchButton">Buscar</button>
                             </div>
                         </div>
-                        <div class="row g-3">
+                         <div class="row g-3">
                             <div class="col-md-12 mb-3">
                                 <div id="map" style="width: 100%; height: 400px;"></div>
                             </div>
                             <div class="col-md-12">
                                 <div class="d-flex align-items-center mb-2">
                                     <label for="latitude" class="me-2">Latitud:</label>
-                                    <input type="text" class="form-control me-4" id="latitude" name="latitude" readonly>
+                                    <input type="text" class="form-control" id="latitude" name="latitude" readonly>
+                                    
                                     <label for="longitude" class="me-2">Longitud:</label>
                                     <input type="text" class="form-control" id="longitude" name="longitude" readonly>
                                 </div>
                             </div>
                         </div>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <div class="d-flex align-items-center mb-2">
+                                    {{ form_row(form.cUsuarioGeoref) }}
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    {{ form_row(form.fUltimaGeor) }}
+                                </div>
+                            </div>
+                        </div>
+                                   
                         <br>
                         <div class="row g-3">
                             <div class="col-12 d-flex justify-content-between">
-                                <button class="btn btn-coop btn-prev" type="button">
-                                    <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                                    <span class="align-middle d-sm-inline-block d-none">Regresar</span>
-                                </button>
-                                <button type="button" class="btn btn-success" onclick="validateAndSubmit()">
-                                    <span class="align-middle d-sm-inline-block d-none me-sm-1">Guardar</span>
-                                </button>
+                                {{ form_widget(form.submit, {'attr': {'class': 'btn-coop', 'onclick': 'setValues()'}}) }}
                             </div>
                         </div>
                     </div>
+                    
+        </div>
+                
             </div>
         </div>
     </div>
     <!-- /Default Wizard -->
-    </div>
-
     {{ form_end(form) }}
 
-    <a href="{{ path('app_tpersonainfo_index') }}">Volver a la lista</a>
+    <a href="{{ path('app_tpersonainfo_location', {'CPersona': CPersona}) }}">Volver a la lista</a>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('map') }} {# Incluir JavaScript generado para map.js #}
     <script src="{{ asset('/lib/lib/assets/js/form-wizard-numbered.js') }}"></script> {# Incluir script personalizado para wizard numerado #}
+
     <script>
-        $(function () {
-            //Initialize Select2 Elements
-            $('.select2').select2()
-        })
+    document.querySelector('form').addEventListener('submit', function() {
+        var latitudeValue = document.getElementById('latitude').value;
+        document.getElementsByName('latitude')[0].value = latitudeValue;
+        var longitudeValue = document.getElementById('longitude').value;
+        document.getElementsByName('longitude')[0].value = longitudeValue;
+    });
+    </script>
 
-        function validateAndSubmit() {
-            const form = document.querySelector('form');
-            console.log(form.checkValidity());
-            if (!form.checkValidity()) {
-                // Si el formulario es válido, navegar al primer tab
-                const wizardNumbered = document.querySelector('.wizard-numbered');
-                const stepperInstance = wizardNumbered ? new Stepper(wizardNumbered) : null;
-                if (stepperInstance) {
-                    stepperInstance.to(1); // Cambia el 1 por el índice del primer tab si es diferente
-                }
-                // Una vez navegado al primer tab, se puede enviar el formulario
-                form.reportValidity();
-            } else {
-                // Si hay errores de validación, mostrar los mensajes de error
-                form.submit();
-            }
+    <script>
+        function setValues() {
+            var userName = document.getElementById('form_cusuario').value
+            var formattedDate = document.getElementById('form_formattedDate').value
+            document.getElementById("form_cUsuarioGeoref").value = userName;
+            document.getElementById("form_fUltimaGeor").value = formattedDate;
         }
-        //Carga de provincia-canton-parroquia
-        $(".cmbProvincia").change(function () {
-
-            if ($(this).val() != "") {
-                $('.cmbCanton').html('');
-                $('.cmbParroquia').html('');
-                cargarCantones();
-            }
-        })
-        $(".cmbCanton").change(function () {
-            if ($(this).val() != "") {
-                cargarParroquias();
-            }
-        })
-        var cargarCantones = function () {
-            $.ajax({
-                method: 'POST',
-                data: {'idProvincia': $('.cmbProvincia').val()},
-                url: "{{ path('app_tpersonainfo_canton') }}",
-                context: document.body
-            }).done(function (dataJson) {
-                $('.cmbCanton').html(dataJson);
-            });
-        };
-        var cargarParroquias = function () {
-            $.ajax({
-                method: 'POST',
-                data: {'idCanton': $('.cmbCanton').val()},
-                url: "{{ path('app_tpersonainfo_parroquia') }}",
-                context: document.body
-            }).done(function (dataJson) {
-                $('.cmbParroquia').html(dataJson);
-            });
-        };
     </script>
 {% endblock %}
