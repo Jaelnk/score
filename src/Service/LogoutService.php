@@ -20,7 +20,7 @@ class LogoutService
     public function logout(string $username): string
     {
         try {
-            $response = $this->client->request('POST', 'http://172.16.1.190:8080/api/logout', [
+            $response = $this->client->request('POST', 'https://172.16.1.236:8443/api/logout', [
                 'headers' => [
                     'Content-Type' => 'application/json',
                 ],

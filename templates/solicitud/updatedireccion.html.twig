@@ -61,12 +61,7 @@
             <button onclick="this.parentElement.style.display='none';" class ="btn btn-coop" >Aceptar</button>
         </div>
     {% endfor %}
-    {% for message in app.flashes('error') %}
-        <div class="flash-success">
-            <p>{{ message }}</p>
-            <button onclick="this.parentElement.style.display='none';" class ="btn btn-coop" >Aceptar</button>
-        </div>
-    {% endfor %}
+   
 
     {{ form_start(form, {'attr': {'class': 'form-class', 'action': path('domicilio_edit')}}) }}
 
@@ -262,6 +257,7 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('map') }} {# Incluir JavaScript generado para map.js #}
+    {# <script src="{{ asset('js/map.js') }}"></script> #}
     <script src="{{ asset('/lib/lib/assets/js/form-wizard-numbered.js') }}"></script> {# Incluir script personalizado para wizard numerado #}
 
     <script>
@@ -270,6 +266,8 @@
         document.getElementsByName('latitude')[0].value = latitudeValue;
         var longitudeValue = document.getElementById('longitude').value;
         document.getElementsByName('longitude')[0].value = longitudeValue;
+
+
     });
     </script>
 

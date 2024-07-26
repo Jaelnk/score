@@ -50,11 +50,13 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $this->logger->info('Intento de autenticación para el usuario: ' . $username);
 
         try {
-            $response = $this->httpClient->request('POST', 'http://172.16.1.190:8080/api/loging/authenticate', [
+            $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/loging/authenticate', [
                 'json' => [
                     'usuario' => $username,
                     'clave' => $password,
                 ],
+                'verify_peer' => false, 
+                'verify_host' => false, 
             ]);
 
             $responseData = $response->toArray();

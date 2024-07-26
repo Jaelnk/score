@@ -72,7 +72,7 @@ class TpersonainfoController extends AbstractController
         $apiData = [];
         if ($identificacion != ' ') {
             try {
-                $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/personas', [
+                $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/listado/personas', [
                     'json' => [
                         'identificacion' => $identificacion,
                         'usuario' => [
@@ -81,6 +81,8 @@ class TpersonainfoController extends AbstractController
                             'rol' => ' '
                         ]
                     ],
+                    'verify_peer' => false, 
+                    'verify_host' => false, 
                 ]);
 
                 $apiData = $response->toArray();
@@ -147,7 +149,7 @@ class TpersonainfoController extends AbstractController
         $apiData = [];
         if ($cpersona) {
             try {
-                $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/ubicaciones', [
+                $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/listado/ubicaciones', [
                     'json' => [
                         'cpersona' => $cpersona,
                         'usuario' => [
@@ -156,6 +158,8 @@ class TpersonainfoController extends AbstractController
                             'rol' => ' '
                         ]
                     ],
+                    'verify_peer' => false, 
+                    'verify_host' => false,
                 ]);
 
                 $apiData = $response->toArray();
@@ -321,6 +325,15 @@ class TpersonainfoController extends AbstractController
                 'attr' => ['readonly' => true],
                 'required' => false,
             ]) */
+            #CORDENADAS
+            ->add('LongitudGPS', HiddenType::class, [
+                'data' => $LongitudGPS,
+            ])
+            ->add('LatitudGPS', HiddenType::class, [
+                'data' => $LatitudGPS,
+            ])
+            #CORDENADAS-¨
+
             ->add('Cpersona', HiddenType::class, [
                 'data' => $CPersona,
             ])
@@ -360,7 +373,7 @@ class TpersonainfoController extends AbstractController
             
 
             try {
-                $response = $this->httpClient->request('POST', 'http://localhost:8086/api/listado/guardarubicaciones', [
+                $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/listado/guardarubicaciones', [
                     'json' => [
                         'cpersona' => $Cpersona,
                         "numerodireccion" => $numeroubicacion,
@@ -374,6 +387,8 @@ class TpersonainfoController extends AbstractController
                             'rol' => ' '
                         ]
                     ],
+                    'verify_peer' => false, 
+                    'verify_host' => false, 
                 ]);
 
                 if($response->getStatusCode() === 200){
