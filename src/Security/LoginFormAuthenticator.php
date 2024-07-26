@@ -17,6 +17,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -29,19 +30,22 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     private UrlGeneratorInterface $urlGenerator;
     private HttpClientInterface $httpClient;
     private LoggerInterface $logger;
+    private $params;
 
     private RequestStack $requestStack;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, HttpClientInterface $httpClient, LoggerInterface $logger, RequestStack $requestStack)
+    public function __construct(UrlGeneratorInterface $urlGenerator, HttpClientInterface $httpClient, LoggerInterface $logger, RequestStack $requestStack, ParameterBagInterface $params)
     {
         $this->urlGenerator = $urlGenerator;
         $this->httpClient = $httpClient;
         $this->logger = $logger;
         $this->requestStack = $requestStack;
+        $this->params = $params;
     }
 
     public function authenticate(Request $request): Passport
     {
+        $apiBaseUrl = $this->params->get('api_base_url');
         $username = $request->request->get('username', '');
         $password = $request->request->get('password', '');
 
@@ -50,7 +54,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $this->logger->info('Intento de autenticación para el usuario: ' . $username);
 
         try {
-            $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/loging/authenticate', [
+            $response = $this->httpClient->request('POST', "$apiBaseUrl/api/loging/authenticate", [
                 'json' => [
                     'usuario' => $username,
                     'clave' => $password,
@@ -65,6 +69,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             if ($responseData['CodigoResultado'] !== '000') {
                 $this->logger->warning('Autenticación fallida: Código de resultado incorrecto');
                 throw new AuthenticationException('Invalid credentials');
+                $this->logger->warning('');
             }
 
             $this->logger->info('Autenticación exitosa para el usuario: ' . $username);

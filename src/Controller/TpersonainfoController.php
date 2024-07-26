@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security as CoreSecurity;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[IsGranted('ROLE_USER')]
 class TpersonainfoController extends AbstractController
@@ -44,16 +45,21 @@ class TpersonainfoController extends AbstractController
     private $httpClient;
     private $logger;
     private $security;
+    private $params;
 
-    public function __construct(HttpClientInterface $httpClient, LoggerInterface $logger, CoreSecurity $security)
+    public function __construct(HttpClientInterface $httpClient, LoggerInterface $logger, CoreSecurity $security, ParameterBagInterface $params)
     {
         $this->httpClient = $httpClient;
         $this->logger = $logger;
         $this->security = $security;
+        $this->params = $params;
     }
 
     public function indexsoli(Request $request, TpersonainfoRepository $tpersonainfoRepository): Response
     {
+        $apiBaseUrl = $this->params->get('api_base_url');
+
+
         $ipAddress = $request->headers->get('x-forwarded-for');
 
         $user = $this->security->getUser();
@@ -72,7 +78,7 @@ class TpersonainfoController extends AbstractController
         $apiData = [];
         if ($identificacion != ' ') {
             try {
-                $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/listado/personas', [
+                $response = $this->httpClient->request('POST', "$apiBaseUrl/api/listado/personas", [
                     'json' => [
                         'identificacion' => $identificacion,
                         'usuario' => [
@@ -136,6 +142,8 @@ class TpersonainfoController extends AbstractController
     #locations list
     public function getlocation(Request $request, TpersonainfoRepository $tpersonainfoRepository): Response
     {
+        $apiBaseUrl = $this->params->get('api_base_url');
+
         $user = $this->security->getUser();
         if ($user){
             $username = $user->getUserIdentifier();
@@ -149,7 +157,7 @@ class TpersonainfoController extends AbstractController
         $apiData = [];
         if ($cpersona) {
             try {
-                $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/listado/ubicaciones', [
+                $response = $this->httpClient->request('POST', "$apiBaseUrl/api/listado/ubicaciones", [
                     'json' => [
                         'cpersona' => $cpersona,
                         'usuario' => [
@@ -180,6 +188,7 @@ class TpersonainfoController extends AbstractController
     #editlocation
     public function editlocation(Request $request, EntityManagerInterface $entityManager, TparametrosRepository $parametrosRepo, TpersonaRepository $repoper): Response
     {
+        $apiBaseUrl = $this->params->get('api_base_url');
 
         $formData = $request->request->all();
         $currentDateTime = new \DateTime();
@@ -373,7 +382,7 @@ class TpersonainfoController extends AbstractController
             
 
             try {
-                $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/listado/guardarubicaciones', [
+                $response = $this->httpClient->request('POST', "$apiBaseUrl/api/listado/guardarubicaciones", [
                     'json' => [
                         'cpersona' => $Cpersona,
                         "numerodireccion" => $numeroubicacion,

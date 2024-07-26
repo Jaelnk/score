@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -22,17 +23,20 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     private RouterInterface $router;
     private HttpClientInterface $httpClient;
+    private $params;
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(RouterInterface $router, HttpClientInterface $httpClient)
+    public function __construct(RouterInterface $router, HttpClientInterface $httpClient, ParameterBagInterface $params)
     {
         $this->router = $router;
         $this->httpClient = $httpClient;
+        $this->params = $params;
     }
 
     public function authenticate(Request $request): Passport
     {
+        $apiBaseUrl = $this->params->get('api_base_url');
         $username = $request->request->get('username');
         $password = $request->request->get('password');
 
@@ -43,7 +47,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         error_log('ANTES XXXXXXXXXXXXXXXXXUsername exitoSSSSSSSSSSSSSAAAAAAA: ' . $username);
 
         try {
-            $response = $this->httpClient->request('POST', 'https://172.16.1.236:8443/api/loging/authenticate', [
+            $response = $this->httpClient->request('POST', "$apiBaseUrl/api/loging/authenticate", [
                 'json' => [
                     'usuario' => $username,
                     'clave' => $password,
