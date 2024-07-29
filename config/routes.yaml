@@ -38,31 +38,37 @@ app_tusuario_data:
   controller: App\Controller\TusuarioController::getData
   methods: ['GET','POST']
 
+#Admin
+admin_dashboard:
+    path: /admin/dashboard
+    controller: App\Controller\Admin:dashboard
+    methods: ['GET','POST']
+
 #Tpersonadata
 
 app_solicitud_index:
-    path: /
+    path: /user/
     controller: App\Controller\TpersonainfoController::indexsoli
     methods: ['GET','POST']
 
 app_tpersonadata_new:
-    path: /app_tpersonasolicitud_new
+    path: /user/app_tpersonasolicitud_new
     controller: App\Controller\TpersonainfoController::newUser
     methods: ['GET','POST']
 
 app_tpersonainfo_location:
-    path: /app_tpersonalocation
+    path: /user/app_tpersonalocation
     controller: App\Controller\TpersonainfoController::getlocation
     methods: ['GET','POST']
 
 domicilio_edit:
-    path: /app_tpersonalocation2
+    path: /user/app_tpersonalocation2
     controller: App\Controller\TpersonainfoController::editlocation
     methods: ['GET','POST']
     
 #Tpersona
 app_tpersonainfo_index:
-    path: /beta
+    path: /admin
     controller: App\Controller\TpersonainfoController::index
     methods: ['GET']
 

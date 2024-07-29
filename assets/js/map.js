@@ -216,20 +216,10 @@ document.getElementById('searchButton').addEventListener('click', function () {
 
                     // Añadir el icono en la posición encontrada
                     const positionFeature = new Feature({
-                        geometry: new Point(position),
-                        name: 'Ubicación encontrada: ' + searchText // Guardar el texto del popup en la propiedad del feature
+                        geometry: new Point(position)
                     });
                     iconSource.clear();
                     iconSource.addFeature(positionFeature);
-
-                    // Mostrar popup en la posición encontrada
-                    popup.setPosition(position);
-                    popupContent.innerHTML = 'Ubicación encontrada: ' + searchText;
-
-                    // Actualizar coordenadas en los campos de entrada
-                    const lonLat = toLonLat(position);
-                    latitudeInput.value = lonLat[1];
-                    longitudeInput.value = lonLat[0];
                 } else {
                     alert('No se encontraron resultados para la dirección ingresada.');
                 }
@@ -242,3 +232,4 @@ document.getElementById('searchButton').addEventListener('click', function () {
         alert('Ingresa una dirección para buscar.');
     }
 });
+

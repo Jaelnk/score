@@ -5,15 +5,18 @@ namespace App\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\InMemoryUser;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SessionUserProvider implements UserProviderInterface
 {
-    private $requestStack;
+    private LoggerInterface $logger;
+    private RequestStack $requestStack;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(LoggerInterface $logger, RequestStack $requestStack)
     {
+        $this->logger = $logger;
         $this->requestStack = $requestStack;
     }
 
