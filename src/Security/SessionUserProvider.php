@@ -25,11 +25,19 @@ class SessionUserProvider implements UserProviderInterface
         $session = $this->requestStack->getCurrentRequest()->getSession();
         $userData = $session->get('user_data');
 
+        foreach ($session->all() as $key => $value) {
+            $this->logger->info(sprintf('SESION ***Campo de la sesión: %s = %s', $key, json_encode($value)));
+        }
+        $this->logger->info($userData['CRol']);
+
         if (!$userData || $userData['Usuario'] !== $identifier) {
             throw new UserNotFoundException();
         }
 
-        return new InMemoryUser($identifier, null, ['ROLE_USER']);
+        $roles = ($userData['CRol'] == "1") ? ['ROLE_ADMIN'] : ['ROLE_USER'];
+        
+
+        return new InMemoryUser($identifier, null, $roles);
     }
 
     public function refreshUser(UserInterface $user): UserInterface

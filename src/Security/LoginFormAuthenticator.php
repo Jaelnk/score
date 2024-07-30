@@ -33,8 +33,13 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     private ParameterBagInterface $params;
     private RequestStack $requestStack;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, HttpClientInterface $httpClient, LoggerInterface $logger, RequestStack $requestStack, ParameterBagInterface $params)
-    {
+    public function __construct(
+        UrlGeneratorInterface $urlGenerator,
+        HttpClientInterface $httpClient,
+        LoggerInterface $logger,
+        RequestStack $requestStack,
+        ParameterBagInterface $params
+    ) {
         $this->urlGenerator = $urlGenerator;
         $this->httpClient = $httpClient;
         $this->logger = $logger;
@@ -48,6 +53,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $username = $request->request->get('username', '');
         $password = $request->request->get('password', '');
 
+        // Guarda el último nombre de usuario en la sesión
         $request->getSession()->set(Security::LAST_USERNAME, $username);
 
         $this->logger->info('Intento de autenticación para el usuario: ' . $username);
@@ -58,8 +64,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
                     'usuario' => $username,
                     'clave' => $password,
                 ],
-                'verify_peer' => false, 
-                'verify_host' => false, 
+                'verify_peer' => false,
+                'verify_host' => false,
             ]);
 
             $responseData = $response->toArray();
@@ -75,11 +81,16 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
             return new SelfValidatingPassport(
                 new UserBadge($username, function($userIdentifier) use ($responseData) {
-                    $this->logger->info('Creando usuario en memoria para: ' . $userIdentifier);
+                    $this->logger->info('****Creando usuario en memoria para: ' . $userIdentifier);
 
                     // Almacenar información adicional del usuario en la sesión
-                    $this->requestStack->getSession()->set('user_data', $responseData);
-
+                    $session = $this->requestStack->getCurrentRequest()->getSession(); 
+                    $session->set('user_data', $responseData);
+                    
+                    foreach ($session->all() as $key => $value) {
+                        $this->logger->info(sprintf('Campo de la sesión: %s = %s', $key, json_encode($value)));
+                    }
+                    
                     // Usar un usuario en memoria para este ejemplo
                     if ($responseData['CRol'] == '1') {
                         return new InMemoryUser($userIdentifier, null, ['ROLE_ADMIN']);
@@ -99,33 +110,28 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Loguear el usuario y roles
         $username = $token->getUserIdentifier();
         $roles = $token->getRoleNames();
-        $this->logger->info('onAuthenticationSuccess llamado para el usuario----: ' . $username);
-        $this->logger->info('Roles del usuario----: ' . implode(', ', $roles));
+        $this->logger->info('onAuthenticationSuccess llamado para el usuario: ' . $username);
+        $this->logger->info('Roles del usuario: ' . implode(', ', $roles));
 
         // Asegurarse de que la información del usuario esté en la sesión
-        if (!$request->getSession()->has('user_data')) {
-            $request->getSession()->set('user_data', [
+        $session = $request->getSession();
+        if (!$session->has('user_data')) {
+            $session->set('user_data', [
                 'username' => $username,
                 'roles' => $roles,
             ]);
         }
 
-        // Obtener el camino de destino si existe
-       /*  if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            $this->logger->info('Admin----:' . $targetPath);
-            return new RedirectResponse($targetPath);
-        } */
+        $this->logger->info('Contenido de la sesión después de autenticación: ' . json_encode($session->all()));
 
-        $this->logger->info('Contenido de la sesión después de autenticación: ' . json_encode($request->getSession()->all()));
         // Ajuste de redirección basado en roles
         if (in_array('ROLE_ADMIN', $roles, true)) {
-            $this->logger->info('Admin----: true');
-            return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
+            $this->logger->info('Admin: true');
+            return new RedirectResponse($this->urlGenerator->generate('app_tpersonainfo_index')); //admin_dashboard
         } else {
-            $this->logger->info('Admin----: false');
+            $this->logger->info('Admin: false');
             return new RedirectResponse($this->urlGenerator->generate('app_solicitud_index'));
         }
     }

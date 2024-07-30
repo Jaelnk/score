@@ -41,7 +41,7 @@ app_tusuario_data:
 #Admin
 admin_dashboard:
     path: /admin/dashboard
-    controller: App\Controller\Admin:dashboard
+    controller: App\Controller\Admin\AdminGestorController:dashboard
     methods: ['GET','POST']
 
 #Tpersonadata
