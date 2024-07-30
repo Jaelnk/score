@@ -8,3 +8,119 @@
     background-color: #ADD8E6 !important;
     color: #1ab7ea !important;
 }
+/* Estilos para botones */
+.btn-custom-coop {
+    background-color: #198754; /* Color de fondo verde personalizado */
+    color: #fff; /* Color de texto blanco */
+    border: 1px solid #198754; /* Borde verde */
+}
+.btn-custom:hover {
+    background-color: #218838; /* Color de fondo en hover */
+    border: 1px solid #218838; /* Borde en hover */
+}
+
+/* Estilos para enlaces */
+.link-custom {
+    color: #198754; /* Color verde personalizado */
+    text-decoration: underline;
+}
+.link-custom:hover {
+    color: #218838; /* Color en hover */
+}
+
+/* Estilos para líneas de tablas */
+.table-custom tr {
+    border-bottom: 1px solid #198754; /* Borde inferior verde */
+}
+.table-custom tr:hover {
+    background-color: #f2f2f2; /* Fondo en hover */
+}
+
+/* Estilos para el enlace de edición */
+.item-edit-coop {
+    color: #198754; /* Color del texto */
+}
+
+.item-edit:hover {
+    color: #1D5429; /* Color del texto cuando se pasa el cursor */
+    text-decoration: underline; /* Subrayado en hover */
+}
+
+/* BOTON VERDE COOP */
+.btn-coop {
+    background-color: #28a745; /* Cambia el color de fondo */
+    border-color: #28a745; /* Cambia el color del borde */
+    color: #fff; /* Cambia el color del texto */
+}
+
+.btn-coop:hover {
+    background-color: #218838; /* Color cuando el mouse está sobre el botón */
+    border-color: #1e7e34; /* Borde cuando el mouse está sobre el botón */
+    color: #fff; /* Color del texto cuando el mouse está sobre el botón */
+}
+
+.btn-coop:focus, .btn-coop.focus {
+    box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5); /* Sombra cuando tiene el foco */
+    background-color: #218838; /* Color cuando tiene el foco */
+    border-color: #1e7e34; /* Borde cuando tiene el foco */
+    color: #fff; /* Color del texto cuando tiene el foco */
+}
+
+.btn-coop:disabled, .btn-coop.disabled {
+    background-color: #6c757d; /* Color cuando está deshabilitado */
+    border-color: #6c757d; /* Borde cuando está deshabilitado */
+    color: #fff; /* Color del texto cuando está deshabilitado */
+}
+
+
+/* wizard */
+
+/* Estilo general para el círculo del paso */
+.bs-stepper .bs-stepper-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2em;
+    height: 2em;
+    padding: 0.5em 0;
+    margin: 0.25rem;
+    line-height: 1em;
+    color: #fff;
+    background-color: #6c757d; /* Color de fondo predeterminado */
+    border-radius: 1em;
+}
+
+/* Estilo cuando el paso está activo */
+.bs-stepper .step.active .bs-stepper-circle {
+    background-color: #28a745; /* Fondo verde para el paso activo */
+    color: #fff; /* Color del texto blanco */
+    box-shadow: 0 0.1875rem 0.375rem 0 rgba(40, 167, 69, 0.4); /* Sombra verde */
+}
+
+/* Estilo para los círculos de pasos no activos */
+.bs-stepper .step-trigger .bs-stepper-circle {
+    background-color: #ffffff; /* Fondo blanco para pasos no activos */
+    color: #28a745; /* Color del texto verde */
+}
+
+
+/* Estilo general para los enlaces de paginación */
+div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-link {
+    padding: 0.625rem;
+    min-width: calc(2rem + calc(0px * 2));
+    font-size: 0.75rem;
+    line-height: 1;
+}
+
+/* Estilo para el elemento de paginación activo */
+.page-item.active .page-link, 
+.page-item.active .page-link:hover, 
+.page-item.active .page-link:focus, 
+.pagination li.active > a:not(.page-link), 
+.pagination li.active > a:not(.page-link):hover, 
+.pagination li.active > a:not(.page-link):focus {
+    border-color: #28a745; /* Color verde para el borde */
+    background-color: #28a745; /* Color verde para el fondo */
+    color: #fff; /* Color blanco para el texto */
+    box-shadow: 0 0.125rem 0.25rem rgba(40, 167, 69, 0.4); /* Sombra verde */
+}

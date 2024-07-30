@@ -8,7 +8,9 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import {Vector as VectorLayer} from 'ol/layer';
 import {Icon, Style} from 'ol/style';
-import {transform} from 'ol/proj';
+import {Overlay} from 'ol';
+import Select from 'ol/interaction/Select';
+import {click} from 'ol/events/condition';
 
 // Obtener los valores de los inputs
 const latitudeInput = document.getElementById('latitude');
@@ -37,6 +39,7 @@ const map = new Map({
     })
 });
 map.getView().setZoom(15);
+
 // Vector layer para el icono
 const iconSource = new VectorSource();
 const iconLayer = new VectorLayer({
@@ -49,19 +52,96 @@ const iconLayer = new VectorLayer({
         })
     })
 });
+// Estilo rojo para la ubicación adicional
+const redIconStyle = new Style({
+    image: new Icon({
+        anchor: [0.5, 1],
+        src: '/images/puntero_rojo.png', // Ruta al icono rojo de posición
+        scale: 0.01 // Escala del icono (ajusta según sea necesario)
+    })
+});
+
 map.addLayer(iconLayer);
 
+// Crear overlay para los popups
+const popupElement = document.createElement('div');
+popupElement.className = 'ol-popup';
+const popupContent = document.createElement('div');
+popupElement.appendChild(popupContent);
+
+const popup = new Overlay({
+    element: popupElement,
+    positioning: 'bottom-center',
+    stopEvent: false,
+    offset: [0, -50]
+});
+map.addOverlay(popup);
+
+// Crear overlay para los popups adicionales
+const additionalPopupElement = document.createElement('div');
+additionalPopupElement.className = 'ol-popup';
+const additionalPopupContent = document.createElement('div');
+additionalPopupElement.appendChild(additionalPopupContent);
+
+const additionalPopup = new Overlay({
+    element: additionalPopupElement,
+    positioning: 'bottom-center',
+    stopEvent: false,
+    offset: [0, -50]
+});
+map.addOverlay(additionalPopup);
+
 // Función para actualizar la posición en el mapa
-function updatePosition(lat, lon) {
+function updatePosition(lat, lon, text) {
     const position = fromLonLat([lon, lat]);
     map.getView().setCenter(position);
 
     const positionFeature = new Feature({
-        geometry: new Point(position)
+        geometry: new Point(position),
+        name: text // Guardar el texto del popup en la propiedad del feature
     });
     iconSource.clear();
     iconSource.addFeature(positionFeature);
+
+    // Mostrar popup en la ubicación
+    popup.setPosition(position);
+    popupContent.innerHTML = text;
+
+    const additionalLatitude = parseFloat(document.getElementById('form_LatitudGPS').value);
+    const additionalLongitude = parseFloat(document.getElementById('form_LongitudGPS').value);
+
+    if (!isNaN(additionalLatitude) && !isNaN(additionalLongitude)) {
+        const additionalCoordinates = fromLonLat([additionalLongitude, additionalLatitude]);
+
+        const additionalFeature = new Feature({
+            geometry: new Point(additionalCoordinates),
+            name: 'Ubicación especificada adicional.' // Guardar el texto del popup adicional en la propiedad del feature
+        });
+        additionalFeature.setStyle(redIconStyle); // Aplicar estilo rojo
+
+        iconSource.addFeature(additionalFeature);
+
+        // Mostrar popup en la ubicación adicional
+        additionalPopup.setPosition(additionalCoordinates);
+        additionalPopupContent.innerHTML = 'Ubicación especificada adicional.';
+    }
 }
+
+// Agregar interacción de selección para mostrar el popup
+const select = new Select({
+    condition: click,
+    style: null // Usar el estilo ya definido en el VectorLayer
+});
+map.addInteraction(select);
+
+select.on('select', function (event) {
+    const selectedFeatures = event.target.getFeatures();
+    selectedFeatures.forEach(function (feature) {
+        const coordinates = toLonLat(feature.getGeometry().getCoordinates());
+        popup.setPosition(fromLonLat(coordinates));
+        popupContent.innerHTML = feature.get('name');
+    });
+});
 
 // Obtener la ubicación actual del usuario
 const geolocation = new Geolocation({
@@ -77,7 +157,7 @@ geolocation.on('change:position', function () {
     if (!latitudeInput.value || !longitudeInput.value) {
         latitudeInput.value = lonLat[1];
         longitudeInput.value = lonLat[0];
-        updatePosition(lonLat[1], lonLat[0]);
+        updatePosition(lonLat[1], lonLat[0], 'Ubicación actual del usuario.');
     }
 
     // Detener el seguimiento de geolocalización
@@ -94,26 +174,28 @@ window.addEventListener('load', function () {
         geolocation.setTracking(true);
     } else {
         // Usar los valores de los inputs
-        updatePosition(lat, lon);
+        updatePosition(lat, lon, 'Ubicación especificada.');
     }
-});
 
-// Añadir un evento para actualizar la posición al hacer clic en el mapa
-map.on('click', function (event) {
-    const coordinates = event.coordinate;
-    const lonLat = toLonLat(coordinates);
-    latitudeInput.value = lonLat[1];
-    longitudeInput.value = lonLat[0];
-    // en el caso que el zoom sea muy exesivo
-    if (map.getView().getZoom() > 20) {
-        map.getView().setZoom(15);
+    // Obtener las coordenadas adicionales
+    const additionalLatitude = parseFloat(document.getElementById('form_LatitudGPS').value);
+    const additionalLongitude = parseFloat(document.getElementById('form_LongitudGPS').value);
+
+    if (!isNaN(additionalLatitude) && !isNaN(additionalLongitude)) {
+        const additionalCoordinates = fromLonLat([additionalLongitude, additionalLatitude]);
+
+        const additionalFeature = new Feature({
+            geometry: new Point(additionalCoordinates),
+            name: 'Ubicación especificada adicional.' // Guardar el texto del popup adicional en la propiedad del feature
+        });
+        additionalFeature.setStyle(redIconStyle); // Aplicar estilo rojo
+
+        iconSource.addFeature(additionalFeature);
+
+        // Mostrar popup en la ubicación adicional
+        additionalPopup.setPosition(additionalCoordinates);
+        additionalPopupContent.innerHTML = 'Ubicación especificada adicional.';
     }
-    // Añadir el icono en la posición clickeada
-    const positionFeature = new Feature({
-        geometry: new Point(coordinates)
-    });
-    iconSource.clear();
-    iconSource.addFeature(positionFeature);
 });
 
 // Evento para buscar una dirección
@@ -150,3 +232,4 @@ document.getElementById('searchButton').addEventListener('click', function () {
         alert('Ingresa una dirección para buscar.');
     }
 });
+

@@ -5,22 +5,27 @@ namespace App\Service;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class LogoutService
 {
     private $client;
     private $logger;
+    private $params;
 
-    public function __construct(HttpClientInterface $client, LoggerInterface $logger)
+    public function __construct(HttpClientInterface $client, LoggerInterface $logger, ParameterBagInterface $params)
     {
         $this->client = $client;
         $this->logger = $logger;
+        $this->params = $params;
     }
 
     public function logout(string $username): string
     {
+        $apiBaseUrl = $this->params->get('api_base_url');
+
         try {
-            $response = $this->client->request('POST', 'http://172.16.1.190:8080/api/logout', [
+            $response = $this->client->request('POST', "$apiBaseUrl/api/logout", [
                 'headers' => [
                     'Content-Type' => 'application/json',
                 ],

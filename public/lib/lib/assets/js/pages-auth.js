@@ -8,7 +8,7 @@ const formAuthentication = document.querySelector('#formAuthentication');
 document.addEventListener('DOMContentLoaded', function (e) {
   (function () {
     // Form validation for Add new record
-    if (formAuthentication) {
+    if (email-username) {
       const fv = FormValidation.formValidation(formAuthentication, {
         fields: {
           username: {
@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 message: 'Please enter username'
               },
               stringLength: {
-                min: 4,
-                message: 'Username must be more than 4 characters'
+                min: 1,
+                message: 'Username must be more than 1 characters'
               }
             }
           },
@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 message: 'Please enter email / username'
               },
               stringLength: {
-                min: 4,
-                message: 'Username must be more than 4 characters'
+                min: 1,
+                message: 'Username must be more than 1 characters'
               }
             }
           },

@@ -5,15 +5,18 @@ namespace App\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\InMemoryUser;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SessionUserProvider implements UserProviderInterface
 {
-    private $requestStack;
+    private LoggerInterface $logger;
+    private RequestStack $requestStack;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(LoggerInterface $logger, RequestStack $requestStack)
     {
+        $this->logger = $logger;
         $this->requestStack = $requestStack;
     }
 
@@ -22,11 +25,19 @@ class SessionUserProvider implements UserProviderInterface
         $session = $this->requestStack->getCurrentRequest()->getSession();
         $userData = $session->get('user_data');
 
+        foreach ($session->all() as $key => $value) {
+            $this->logger->info(sprintf('SESION ***Campo de la sesión: %s = %s', $key, json_encode($value)));
+        }
+        $this->logger->info($userData['CRol']);
+
         if (!$userData || $userData['Usuario'] !== $identifier) {
             throw new UserNotFoundException();
         }
 
-        return new InMemoryUser($identifier, null, ['ROLE_USER']);
+        $roles = ($userData['CRol'] == "1") ? ['ROLE_ADMIN'] : ['ROLE_USER'];
+        
+
+        return new InMemoryUser($identifier, null, $roles);
     }
 
     public function refreshUser(UserInterface $user): UserInterface

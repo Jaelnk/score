@@ -6,14 +6,7 @@ security:
         # Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         Symfony\Component\Security\Core\User\InMemoryUser: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
-    providers:
-        app_user_provider:
-            id: App\Security\SessionUserProvider
-        #     entity:
-        #         class: App\Entity\Tusuario
-        #         property: nombreUsuario
-            # memory:
-                # users: []
+  
 
     firewalls:
         dev:
@@ -48,7 +41,10 @@ security:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/logout$, roles: PUBLIC_ACCESS }
         - { path: ^/tpersonainfo, roles: ROLE_USER }
-        - { path: ^/, roles: ROLE_USER }
+
+        - { path: ^/admin, roles: ROLE_ADMIN }
+ 
+        - { path: ^/user, roles: ROLE_USER }
 
         # - { path: ^/login$, roles: PUBLIC_ACCESS }
         # - { path: ^/logout$, roles: PUBLIC_ACCESS }
@@ -56,6 +52,15 @@ security:
         # - { path: ^/, roles: ROLE_USER }
 
         # - { path: ^/profile, roles: ROLE_USER }
+
+    providers:
+        app_user_provider:
+            id: App\Security\SessionUserProvider
+        #     entity:
+        #         class: App\Entity\Tusuario
+        #         property: nombreUsuario
+            # memory:
+                # users: []
 
 when@test:
     security:

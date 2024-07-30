@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Direcciones{% endblock %}
+
+{% block headerlink %}
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Georeferenciación</a></li>
+                    <li class="breadcrumb-item active">Direccion</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('map') }} {# Incluir CSS generado para map.js #}
+    <link rel="stylesheet" href="{{ absolute_url(asset('/lib/lib/assets/css/appadmin.css')) }}"/>
+
+
+{% endblock %}
+
+{% block body %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Tipo Domicilio</th>
+                    <th>Principal</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for domicilio in domicilios %}
+                    <tr>
+                        <td>{{ domicilio.Descripcion }}</td>
+                        <td>{{ domicilio.DirPrincipal ? 'Sí' : 'No' }}</td>
+                        <td>{{ domicilio.Direccion }}</td>
+                        <td>
+                            <form action="{{ path('domicilio_edit') }}" method="post" style="display:inline;">
+                        <!-- Campos ocultos con los datos del domicilio actual -->
+                                <input type="hidden" name="descripcion" value="{{ domicilio.Descripcion }}">
+                                <input type="hidden" name="dirPrincipal" value="{{ domicilio.DirPrincipal }}">
+                                <input type="hidden" name="direccion" value="{{ domicilio.Direccion }}">
+                                
+                                <input type="hidden" name="CPersona" value="{{ domicilio.CPersona }}">
+                                <input type="hidden" name="CTipoDireccion" value="{{ domicilio.CTipoDireccion }}">
+                                <input type="hidden" name="Descripcion" value="{{ domicilio.Descripcion }}">
+                                <input type="hidden" name="DirPrincipal" value="{{ domicilio.DirPrincipal }}">
+                                <input type="hidden" name="Direccion" value="{{ domicilio.Direccion }}">
+                                <input type="hidden" name="Pais" value="{{ domicilio.Pais }}">
+                                <input type="hidden" name="DescripcionPais" value="{{ domicilio.DescripcionPais }}">
+                                <input type="hidden" name="Provincia" value="{{ domicilio.Provincia }}">
+                                <input type="hidden" name="NombreProvincia" value="{{ domicilio.NombreProvincia }}">
+                                <input type="hidden" name="NombreCanton" value="{{ domicilio.NombreCanton }}">
+                                <input type="hidden" name="CCanton" value="{{ domicilio.CCanton }}">
+                                <input type="hidden" name="CParroquia" value="{{ domicilio.CParroquia }}">
+                                <input type="hidden" name="NombreParroquia" value="{{ domicilio.NombreParroquia }}">
+                                <input type="hidden" name="Observaciones" value="{{ domicilio.Observaciones }}">
+                                <input type="hidden" name="Sector" value="{{ domicilio.Sector }}">
+                                <input type="hidden" name="NombrePropietario" value="{{ domicilio.NombrePropietario }}">
+                                <input type="hidden" name="CodigoZip5" value="{{ domicilio.CodigoZip5 }}">
+                                <input type="hidden" name="FechaIngresoResidencia" value="{{ domicilio.FechaIngresoResidencia }}">
+                                <input type="hidden" name="Urbanizacion" value="{{ domicilio.Urbanizacion }}">
+                                <input type="hidden" name="tipositiodes" value="{{ domicilio.tipositiodes }}">
+                                <input type="hidden" name="numeroubicacion" value="{{ domicilio.numeroubicacion }}">
+                                <input type="hidden" name="LatitudGPS" value="{{ domicilio.LatitudGPS }}">
+                                <input type="hidden" name="LongitudGPS" value="{{ domicilio.LongitudGPS }}">
+                                <input type="hidden" name="cUsuarioGeoref" value="{{ domicilio.cUsuarioGeoref }}">
+                                <input type="hidden" name="fUltimaGeor" value="{{ domicilio.fUltimaGeor }}">
+                                <!-- Botón de modificar -->
+                                <button type="submit" class="btn btn-coop">
+                                    <span class="align-middle">Modificar</span>
+                                </button>
+                            </form>
+                            {# <a class="btn btn-success" href="{{ path('app_tpersonadata_new') }}" id="newuser">
+                    <i class="bx bx-plus me-1"></i>
+                    <span class="align-middle">Nuevo cliente</span>
+                </a> #}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">No se encontraron domicilios</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ path('app_solicitud_index') }}">Volver a la lista de clientes</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('map') }} {# Incluir JavaScript generado para map.js #}
+{% endblock %}
